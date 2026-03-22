@@ -1,0 +1,941 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fordonsregistret — Vägtrafikinspektionen</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Source+Sans+3:wght@300;400;600;700&family=Source+Code+Pro:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --gov-blue: #003B73;
+            --gov-blue-dark: #002B55;
+            --gov-blue-light: #E8F0F8;
+            --gov-yellow: #FFCC02;
+            --gov-yellow-muted: #F5D54A;
+            --text-primary: #1A1A1A;
+            --text-secondary: #4A4A4A;
+            --text-muted: #6B6B6B;
+            --border: #C8D1DA;
+            --border-light: #E2E8EE;
+            --bg-page: #F0F2F5;
+            --bg-card: #FFFFFF;
+            --bg-input: #FAFBFC;
+            --error-red: #C4372C;
+            --success-green: #1B7A3D;
+            --warning-bg: #FFF8E1;
+            --warning-border: #E6C547;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Source Sans 3', 'Segoe UI', Tahoma, sans-serif;
+            background: var(--bg-page);
+            color: var(--text-primary);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* === GOVERNMENT HEADER === */
+        .gov-header {
+            background: var(--gov-blue);
+            color: white;
+            border-bottom: 4px solid var(--gov-yellow);
+        }
+
+        .gov-header-top {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            max-width: 960px;
+            margin: 0 auto;
+            padding: 14px 24px;
+        }
+
+        .gov-logo {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+        }
+
+        .gov-logo-icon {
+            width: 44px;
+            height: 44px;
+            background: var(--gov-yellow);
+            border-radius: 4px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+
+        .gov-logo-icon svg {
+            width: 28px;
+            height: 28px;
+        }
+
+        .gov-logo-text {
+            display: flex;
+            flex-direction: column;
+            line-height: 1.2;
+        }
+
+        .gov-logo-name {
+            font-size: 18px;
+            font-weight: 700;
+            letter-spacing: 0.02em;
+        }
+
+        .gov-logo-sub {
+            font-size: 12px;
+            font-weight: 300;
+            opacity: 0.75;
+            letter-spacing: 0.04em;
+            text-transform: uppercase;
+        }
+
+        .gov-header-meta {
+            font-size: 11px;
+            opacity: 0.6;
+            text-align: right;
+            line-height: 1.5;
+        }
+
+        /* === NAVIGATION BAR === */
+        .gov-nav {
+            background: var(--gov-blue-dark);
+        }
+
+        .gov-nav-inner {
+            max-width: 960px;
+            margin: 0 auto;
+            padding: 0 24px;
+            display: flex;
+            gap: 0;
+        }
+
+        .gov-nav-item {
+            padding: 10px 18px;
+            font-size: 13px;
+            color: rgba(255,255,255,0.65);
+            text-decoration: none;
+            border-bottom: 2px solid transparent;
+            transition: all 0.15s;
+            cursor: default;
+        }
+
+        .gov-nav-item.active {
+            color: white;
+            border-bottom-color: var(--gov-yellow);
+            background: rgba(255,255,255,0.05);
+        }
+
+        .gov-nav-item:hover {
+            color: rgba(255,255,255,0.85);
+        }
+
+        /* === BREADCRUMB === */
+        .breadcrumb {
+            max-width: 960px;
+            margin: 0 auto;
+            padding: 12px 24px;
+            font-size: 12px;
+            color: var(--text-muted);
+            width: 100%;
+        }
+
+        .breadcrumb span {
+            margin: 0 6px;
+        }
+
+        .breadcrumb a {
+            color: var(--gov-blue);
+            text-decoration: none;
+        }
+
+        /* === MAIN CONTENT === */
+        .main-content {
+            max-width: 960px;
+            margin: 0 auto;
+            padding: 0 24px 60px;
+            width: 100%;
+            flex: 1;
+        }
+
+        .page-title {
+            font-size: 26px;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: 4px;
+        }
+
+        .page-subtitle {
+            font-size: 14px;
+            color: var(--text-muted);
+            margin-bottom: 28px;
+        }
+
+        /* === NOTICE BOX === */
+        .notice-box {
+            background: var(--warning-bg);
+            border: 1px solid var(--warning-border);
+            border-left: 4px solid var(--gov-yellow-muted);
+            padding: 14px 18px;
+            margin-bottom: 28px;
+            border-radius: 2px;
+            font-size: 13px;
+            color: var(--text-secondary);
+            line-height: 1.5;
+        }
+
+        .notice-box strong {
+            color: var(--text-primary);
+        }
+
+        /* === SEARCH CARD === */
+        .search-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 3px;
+            padding: 28px 32px;
+            margin-bottom: 24px;
+        }
+
+        .search-card-title {
+            font-size: 16px;
+            font-weight: 600;
+            margin-bottom: 18px;
+            color: var(--text-primary);
+            padding-bottom: 12px;
+            border-bottom: 1px solid var(--border-light);
+        }
+
+        .search-form {
+            display: flex;
+            gap: 12px;
+            align-items: flex-end;
+        }
+
+        .form-group {
+            flex: 1;
+        }
+
+        .form-label {
+            display: block;
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--text-secondary);
+            margin-bottom: 6px;
+        }
+
+        .form-hint {
+            font-weight: 400;
+            color: var(--text-muted);
+            font-size: 12px;
+        }
+
+        .form-input {
+            width: 100%;
+            padding: 10px 14px;
+            font-family: 'Source Code Pro', monospace;
+            font-size: 16px;
+            font-weight: 500;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            border: 2px solid var(--border);
+            border-radius: 2px;
+            background: var(--bg-input);
+            color: var(--text-primary);
+            transition: border-color 0.15s;
+        }
+
+        .form-input::placeholder {
+            color: #B0B8C2;
+            text-transform: none;
+            letter-spacing: normal;
+            font-family: 'Source Sans 3', sans-serif;
+            font-size: 14px;
+            font-weight: 400;
+        }
+
+        .form-input:focus {
+            outline: none;
+            border-color: var(--gov-blue);
+            background: white;
+            box-shadow: 0 0 0 3px rgba(0, 59, 115, 0.1);
+        }
+
+        .search-btn {
+            padding: 10px 28px;
+            background: var(--gov-blue);
+            color: white;
+            border: 2px solid var(--gov-blue);
+            border-radius: 2px;
+            font-family: 'Source Sans 3', sans-serif;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.15s;
+            white-space: nowrap;
+            height: 44px;
+        }
+
+        .search-btn:hover {
+            background: var(--gov-blue-dark);
+            border-color: var(--gov-blue-dark);
+        }
+
+        .search-btn:active {
+            transform: translateY(1px);
+        }
+
+        /* === RESULT CARD === */
+        .result-area {
+            min-height: 100px;
+        }
+
+        .result-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 3px;
+            overflow: hidden;
+            animation: fadeIn 0.25s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(6px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .result-header {
+            background: var(--gov-blue);
+            color: white;
+            padding: 14px 24px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .result-header-title {
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        .result-header-ref {
+            font-size: 11px;
+            font-family: 'Source Code Pro', monospace;
+            opacity: 0.7;
+        }
+
+        .result-body {
+            padding: 24px;
+        }
+
+        .result-reg {
+            font-family: 'Source Code Pro', monospace;
+            font-size: 28px;
+            font-weight: 500;
+            letter-spacing: 0.15em;
+            color: var(--gov-blue);
+            padding: 12px 20px;
+            background: var(--gov-blue-light);
+            border: 2px solid var(--gov-blue);
+            border-radius: 3px;
+            display: inline-block;
+            margin-bottom: 24px;
+        }
+
+        .result-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 0;
+            border: 1px solid var(--border-light);
+            border-radius: 2px;
+            overflow: hidden;
+        }
+
+        .result-row {
+            display: contents;
+        }
+
+        .result-label {
+            padding: 10px 16px;
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--text-secondary);
+            background: #F7F8FA;
+            border-bottom: 1px solid var(--border-light);
+            border-right: 1px solid var(--border-light);
+        }
+
+        .result-value {
+            padding: 10px 16px;
+            font-size: 13px;
+            color: var(--text-primary);
+            border-bottom: 1px solid var(--border-light);
+        }
+
+        .result-row:last-child .result-label,
+        .result-row:last-child .result-value {
+            border-bottom: none;
+        }
+
+        .result-status {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 12px;
+            font-weight: 600;
+            padding: 3px 10px;
+            border-radius: 2px;
+        }
+
+        .status-active {
+            background: #E8F5E9;
+            color: var(--success-green);
+        }
+
+        .status-reported {
+            background: #FFF3E0;
+            color: #C46210;
+        }
+
+        .result-footer {
+            padding: 14px 24px;
+            background: #FAFBFC;
+            border-top: 1px solid var(--border-light);
+            font-size: 11px;
+            color: var(--text-muted);
+            display: flex;
+            justify-content: space-between;
+        }
+
+        /* === NO RESULT === */
+        .no-result {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 3px;
+            padding: 40px 24px;
+            text-align: center;
+            animation: fadeIn 0.25s ease;
+        }
+
+        .no-result-icon {
+            font-size: 36px;
+            margin-bottom: 12px;
+            opacity: 0.3;
+        }
+
+        .no-result-title {
+            font-size: 16px;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 6px;
+        }
+
+        .no-result-text {
+            font-size: 13px;
+            color: var(--text-muted);
+            line-height: 1.5;
+        }
+
+        /* === ERROR STATE === */
+        .error-msg {
+            color: var(--error-red);
+            font-size: 13px;
+            margin-top: 8px;
+            display: none;
+        }
+
+        .form-input.error {
+            border-color: var(--error-red);
+        }
+
+        /* === LOADING === */
+        .loading {
+            text-align: center;
+            padding: 40px;
+        }
+
+        .loading-spinner {
+            width: 32px;
+            height: 32px;
+            border: 3px solid var(--border);
+            border-top-color: var(--gov-blue);
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+            margin: 0 auto 12px;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        .loading-text {
+            font-size: 13px;
+            color: var(--text-muted);
+        }
+
+        /* === FOOTER === */
+        .gov-footer {
+            background: var(--gov-blue-dark);
+            color: rgba(255,255,255,0.5);
+            padding: 20px 24px;
+            text-align: center;
+            font-size: 11px;
+            line-height: 1.6;
+            margin-top: auto;
+        }
+
+        .gov-footer a {
+            color: rgba(255,255,255,0.65);
+            text-decoration: none;
+        }
+
+        /* === RESPONSIVE === */
+        @media (max-width: 640px) {
+            .gov-header-top {
+                padding: 12px 16px;
+            }
+            .gov-header-meta {
+                display: none;
+            }
+            .gov-logo-name {
+                font-size: 16px;
+            }
+            .main-content {
+                padding: 0 16px 40px;
+            }
+            .search-form {
+                flex-direction: column;
+            }
+            .search-btn {
+                width: 100%;
+            }
+            .search-card {
+                padding: 20px;
+            }
+            .result-grid {
+                grid-template-columns: 1fr;
+            }
+            .result-label {
+                border-right: none;
+            }
+            .page-title {
+                font-size: 22px;
+            }
+            .result-reg {
+                font-size: 22px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- GOVERNMENT HEADER -->
+    <header class="gov-header">
+        <div class="gov-header-top">
+            <div class="gov-logo">
+                <div class="gov-logo-icon">
+                    <svg viewBox="0 0 24 24" fill="none">
+                        <path d="M12 2L3 7v2h18V7L12 2z" fill="#003B73"/>
+                        <rect x="4" y="10" width="2.5" height="8" rx="0.5" fill="#003B73"/>
+                        <rect x="8.5" y="10" width="2.5" height="8" rx="0.5" fill="#003B73"/>
+                        <rect x="13" y="10" width="2.5" height="8" rx="0.5" fill="#003B73"/>
+                        <rect x="17.5" y="10" width="2.5" height="8" rx="0.5" fill="#003B73"/>
+                        <rect x="2" y="19" width="20" height="2.5" rx="0.5" fill="#003B73"/>
+                    </svg>
+                </div>
+                <div class="gov-logo-text">
+                    <span class="gov-logo-name">Vägtrafikinspektionen</span>
+                    <span class="gov-logo-sub">Fordonsregistret — Öppen sökning</span>
+                </div>
+            </div>
+            <div class="gov-header-meta">
+                Senast uppdaterad: 2004-11-18<br>
+                Databasversion 4.2.1
+            </div>
+        </div>
+        <nav class="gov-nav">
+            <div class="gov-nav-inner">
+                <span class="gov-nav-item">Startsida</span>
+                <span class="gov-nav-item active">Fordonsuppslag</span>
+                <span class="gov-nav-item">Ägarhistorik</span>
+                <span class="gov-nav-item">Kontakt</span>
+            </div>
+        </nav>
+    </header>
+
+    <!-- BREADCRUMB -->
+    <div class="breadcrumb">
+        <a href="#">Startsida</a> <span>›</span> <a href="#">Fordonsregistret</a> <span>›</span> Fordonsuppslag
+    </div>
+
+    <!-- MAIN -->
+    <main class="main-content">
+        <h1 class="page-title">Fordonsuppslag</h1>
+        <p class="page-subtitle">Sök fordonsuppgifter via registreringsnummer</p>
+
+        <div class="notice-box">
+            <strong>Observera:</strong> Denna tjänst visar aktuella uppgifter ur det centrala fordonsregistret.
+            Uppgifterna uppdateras vardagar kl. 06:00. Vid frågor kontakta Vägtrafikinspektionens kundtjänst
+            på telefon 0771-82 00 00 (vardagar 08–16).
+        </div>
+
+        <!-- SEARCH -->
+        <div class="search-card">
+            <div class="search-card-title">Sök fordon</div>
+            <div class="search-form">
+                <div class="form-group">
+                    <label class="form-label" for="regInput">
+                        Registreringsnummer
+                        <span class="form-hint"> — Format: ABC 123</span>
+                    </label>
+                    <input
+                        type="text"
+                        id="regInput"
+                        class="form-input"
+                        placeholder="Ange registreringsnummer"
+                        maxlength="7"
+                        autocomplete="off"
+                        spellcheck="false"
+                    >
+                    <div class="error-msg" id="errorMsg"></div>
+                </div>
+                <button class="search-btn" id="searchBtn" onclick="searchVehicle()">Sök</button>
+            </div>
+        </div>
+
+        <!-- RESULTS -->
+        <div class="result-area" id="resultArea"></div>
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="gov-footer">
+        Vägtrafikinspektionen &copy; 2004 &middot; Org.nr 202100-0639 &middot;
+        <a href="#">Tillgänglighetsredogörelse</a> &middot;
+        <a href="#">Personuppgiftspolicy</a><br>
+        Informationen i fordonsregistret omfattas av offentlighetsprincipen enligt Tryckfrihetsförordningen (1949:105).
+    </footer>
+
+    <script>
+        // ============================================
+        // FORDONSDATABAS — FALL NR. 005 "SVART KAJ"
+        // ============================================
+        const vehicles = {
+            "XGF342": {
+                reg: "XGF 342",
+                type: "Personbil",
+                make: "Nissan",
+                model: "Navara",
+                year: 2001,
+                color: "Mörkblå",
+                vin: "VSKJBRF47UA123847",
+                owner: "Gren, Niklas Ove",
+                ownerPnr: "660415-****",
+                ownerAddr: "Strandvägen 14B, 451 32 Strandvik",
+                status: "I trafik",
+                statusClass: "status-active",
+                insured: "Ja — Länsförsäkringar",
+                inspection: "2004-06-14 (Godkänd)",
+                nextInspection: "2006-06-30",
+                taxWeight: "2 070 kg",
+                co2: "243 g/km",
+                fuel: "Diesel",
+                regDate: "2001-09-03",
+                notes: ""
+            },
+            "MBT891": {
+                reg: "MBT 891",
+                type: "Personbil",
+                make: "Volvo",
+                model: "V70",
+                year: 2002,
+                color: "Silvermetallic",
+                vin: "YV1SW61P042387651",
+                owner: "Renström, Susanne Birgitta",
+                ownerPnr: "550823-****",
+                ownerAddr: "Ekuddsvägen 7, 451 30 Strandvik",
+                status: "I trafik",
+                statusClass: "status-active",
+                insured: "Ja — If Skadeförsäkring",
+                inspection: "2004-03-22 (Godkänd)",
+                nextInspection: "2006-03-31",
+                taxWeight: "1 610 kg",
+                co2: "189 g/km",
+                fuel: "Bensin",
+                regDate: "2002-04-17",
+                notes: ""
+            },
+            "KDF507": {
+                reg: "KDF 507",
+                type: "Personbil",
+                make: "Saab",
+                model: "9-5 Sedan",
+                year: 1999,
+                color: "Svart",
+                vin: "YS3ED48E5Y3012984",
+                owner: "Dahl, Erik Gunnar",
+                ownerPnr: "600912-****",
+                ownerAddr: "Hamngatan 22, 451 31 Strandvik",
+                status: "I trafik",
+                statusClass: "status-active",
+                insured: "Ja — Trygg-Hansa",
+                inspection: "2004-09-05 (Godkänd)",
+                nextInspection: "2006-09-30",
+                taxWeight: "1 530 kg",
+                co2: "212 g/km",
+                fuel: "Bensin",
+                regDate: "1999-11-22",
+                notes: ""
+            },
+            "RNP263": {
+                reg: "RNP 263",
+                type: "Personbil",
+                make: "Toyota",
+                model: "Corolla",
+                year: 2003,
+                color: "Röd",
+                vin: "JTDKN3DU7A5039172",
+                owner: "Saleh, Fatima",
+                ownerPnr: "730304-****",
+                ownerAddr: "Björkallén 5, lgh 1201, 451 34 Strandvik",
+                status: "I trafik",
+                statusClass: "status-active",
+                insured: "Ja — Folksam",
+                inspection: "2004-01-18 (Godkänd)",
+                nextInspection: "2006-01-31",
+                taxWeight: "1 180 kg",
+                co2: "156 g/km",
+                fuel: "Bensin",
+                regDate: "2003-08-09",
+                notes: ""
+            },
+            "GHA419": {
+                reg: "GHA 419",
+                type: "Personbil",
+                make: "Ford",
+                model: "Focus",
+                year: 2000,
+                color: "Grå",
+                vin: "WF0AXXGCDA1Y48823",
+                owner: "Viklund, Tommy Rolf",
+                ownerPnr: "470603-****",
+                ownerAddr: "Skogsvägen 31, 451 35 Strandvik",
+                status: "I trafik",
+                statusClass: "status-active",
+                insured: "Ja — Länsförsäkringar",
+                inspection: "2003-11-27 (Godkänd)",
+                nextInspection: "2005-11-30",
+                taxWeight: "1 270 kg",
+                co2: "178 g/km",
+                fuel: "Bensin",
+                regDate: "2000-06-15",
+                notes: ""
+            },
+            // Offrets bil
+            "TAE758": {
+                reg: "TAE 758",
+                type: "Personbil",
+                make: "Volvo",
+                model: "S60",
+                year: 2003,
+                color: "Mörkgrön metallic",
+                vin: "YV1RS614652187340",
+                owner: "Renström, Bo Anders",
+                ownerPnr: "520217-****",
+                ownerAddr: "Ekuddsvägen 7, 451 30 Strandvik",
+                status: "I trafik",
+                statusClass: "status-active",
+                insured: "Ja — If Skadeförsäkring",
+                inspection: "2004-05-10 (Godkänd)",
+                nextInspection: "2006-05-31",
+                taxWeight: "1 480 kg",
+                co2: "198 g/km",
+                fuel: "Bensin",
+                regDate: "2003-02-24",
+                notes: ""
+            }
+        };
+
+        function normalizeReg(input) {
+            return input.replace(/[\s\-]/g, '').toUpperCase();
+        }
+
+        function searchVehicle() {
+            const input = document.getElementById('regInput');
+            const resultArea = document.getElementById('resultArea');
+            const errorMsg = document.getElementById('errorMsg');
+            const raw = input.value.trim();
+
+            // Reset
+            input.classList.remove('error');
+            errorMsg.style.display = 'none';
+            errorMsg.textContent = '';
+
+            if (!raw) {
+                input.classList.add('error');
+                errorMsg.textContent = 'Ange ett registreringsnummer för att söka.';
+                errorMsg.style.display = 'block';
+                return;
+            }
+
+            const normalized = normalizeReg(raw);
+
+            // Validate format (3 letters + 3 digits)
+            if (!/^[A-Z]{3}\d{3}$/.test(normalized)) {
+                input.classList.add('error');
+                errorMsg.textContent = 'Ogiltigt format. Ange tre bokstäver följt av tre siffror (t.ex. ABC 123).';
+                errorMsg.style.display = 'block';
+                resultArea.innerHTML = '';
+                return;
+            }
+
+            // Show loading
+            resultArea.innerHTML = `
+                <div class="loading">
+                    <div class="loading-spinner"></div>
+                    <div class="loading-text">Söker i fordonsregistret...</div>
+                </div>
+            `;
+
+            // Simulate database delay
+            const delay = 600 + Math.random() * 800;
+            setTimeout(() => {
+                const vehicle = vehicles[normalized];
+                if (vehicle) {
+                    showResult(vehicle);
+                } else {
+                    showNoResult(normalized);
+                }
+            }, delay);
+        }
+
+        function showResult(v) {
+            const refNr = 'FR-' + Date.now().toString().slice(-8);
+            const now = new Date();
+            const timestamp = now.toISOString().slice(0, 19).replace('T', ' ');
+
+            document.getElementById('resultArea').innerHTML = `
+                <div class="result-card">
+                    <div class="result-header">
+                        <span class="result-header-title">Fordonsuppgifter</span>
+                        <span class="result-header-ref">Ref: ${refNr}</span>
+                    </div>
+                    <div class="result-body">
+                        <div class="result-reg">${v.reg}</div>
+                        <div class="result-grid">
+                            <div class="result-row">
+                                <div class="result-label">Fordonstyp</div>
+                                <div class="result-value">${v.type}</div>
+                            </div>
+                            <div class="result-row">
+                                <div class="result-label">Fabrikat / Modell</div>
+                                <div class="result-value">${v.make} ${v.model}</div>
+                            </div>
+                            <div class="result-row">
+                                <div class="result-label">Årsmodell</div>
+                                <div class="result-value">${v.year}</div>
+                            </div>
+                            <div class="result-row">
+                                <div class="result-label">Färg</div>
+                                <div class="result-value">${v.color}</div>
+                            </div>
+                            <div class="result-row">
+                                <div class="result-label">Chassinummer (VIN)</div>
+                                <div class="result-value" style="font-family: 'Source Code Pro', monospace; font-size: 12px;">${v.vin}</div>
+                            </div>
+                            <div class="result-row">
+                                <div class="result-label">Drivmedel</div>
+                                <div class="result-value">${v.fuel}</div>
+                            </div>
+                            <div class="result-row">
+                                <div class="result-label">Tjänstevikt</div>
+                                <div class="result-value">${v.taxWeight}</div>
+                            </div>
+                            <div class="result-row">
+                                <div class="result-label">CO₂-utsläpp</div>
+                                <div class="result-value">${v.co2}</div>
+                            </div>
+                            <div class="result-row">
+                                <div class="result-label">Status</div>
+                                <div class="result-value"><span class="result-status ${v.statusClass}">${v.status}</span></div>
+                            </div>
+                            <div class="result-row">
+                                <div class="result-label">Registreringsdatum</div>
+                                <div class="result-value">${v.regDate}</div>
+                            </div>
+                            <div class="result-row">
+                                <div class="result-label">Senaste besiktning</div>
+                                <div class="result-value">${v.inspection}</div>
+                            </div>
+                            <div class="result-row">
+                                <div class="result-label">Nästa besiktning senast</div>
+                                <div class="result-value">${v.nextInspection}</div>
+                            </div>
+                            <div class="result-row">
+                                <div class="result-label">Försäkring</div>
+                                <div class="result-value">${v.insured}</div>
+                            </div>
+                            <div class="result-row">
+                                <div class="result-label">Registrerad ägare</div>
+                                <div class="result-value"><strong>${v.owner}</strong></div>
+                            </div>
+                            <div class="result-row">
+                                <div class="result-label">Personnummer</div>
+                                <div class="result-value" style="font-family: 'Source Code Pro', monospace;">${v.ownerPnr}</div>
+                            </div>
+                            <div class="result-row">
+                                <div class="result-label">Folkbokföringsadress</div>
+                                <div class="result-value">${v.ownerAddr}</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="result-footer">
+                        <span>Uppslag utfört: ${timestamp}</span>
+                        <span>Källa: Centrala fordonsregistret (VTI-FR/4.2)</span>
+                    </div>
+                </div>
+            `;
+        }
+
+        function showNoResult(reg) {
+            const formatted = reg.slice(0,3) + ' ' + reg.slice(3);
+            document.getElementById('resultArea').innerHTML = `
+                <div class="no-result">
+                    <div class="no-result-icon">⊘</div>
+                    <div class="no-result-title">Inget fordon hittat</div>
+                    <div class="no-result-text">
+                        Registreringsnummer <strong>${formatted}</strong> kunde inte hittas i fordonsregistret.<br>
+                        Kontrollera att numret är korrekt angivet. Om problemet kvarstår,
+                        kontakta Vägtrafikinspektionens kundtjänst.
+                    </div>
+                </div>
+            `;
+        }
+
+        // Enter key support
+        document.getElementById('regInput').addEventListener('keydown', function(e) {
+            if (e.key === 'Enter') {
+                searchVehicle();
+            }
+        });
+
+        // Auto-format input with space
+        document.getElementById('regInput').addEventListener('input', function(e) {
+            let val = this.value.replace(/\s/g, '').toUpperCase();
+            if (val.length > 3 && val[3] !== ' ') {
+                val = val.slice(0, 3) + ' ' + val.slice(3);
+            }
+            if (val.length > 7) val = val.slice(0, 7);
+            this.value = val;
+        });
+    </script>
+</body>
+</html>
