@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Historik — Safari</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; -webkit-font-smoothing: antialiased; }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Text', 'Helvetica Neue', sans-serif;
+            background: #f2f2f7;
+            color: #000;
+            max-width: 430px;
+            margin: 0 auto;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        /* Status bar */
+        .status-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 14px 20px 8px;
+            font-size: 15px;
+            font-weight: 600;
+            background: #f2f2f7;
+        }
+        .status-bar .time { font-size: 16px; font-weight: 700; }
+        .status-icons { display: flex; gap: 5px; align-items: center; font-size: 13px; }
+        .battery { background: #000; color: #fff; padding: 1px 4px; border-radius: 3px; font-size: 11px; font-weight: 700; }
+
+        /* Top bar */
+        .top-bar {
+            display: flex;
+            justify-content: flex-end;
+            padding: 8px 20px 12px;
+            gap: 16px;
+        }
+        .top-btn {
+            width: 30px; height: 30px;
+            background: #e5e5ea;
+            border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 16px; color: #3c3c43;
+        }
+
+        /* Nav header */
+        .nav-header {
+            padding: 0 20px 8px;
+            font-size: 13px;
+            color: #007aff;
+        }
+
+        /* Tab bar */
+        .tab-bar {
+            display: flex;
+            margin: 0 20px 16px;
+            background: #e5e5ea;
+            border-radius: 8px;
+            padding: 2px;
+        }
+        .tab { flex: 1; text-align: center; padding: 6px; font-size: 13px; font-weight: 500; color: #8e8e93; border-radius: 7px; }
+        .tab.active { background: #fff; color: #000; box-shadow: 0 1px 3px rgba(0,0,0,0.1); }
+
+        /* Day groups */
+        .day-group {
+            margin-bottom: 0;
+        }
+        .day-header {
+            padding: 8px 20px 6px;
+            font-size: 20px;
+            font-weight: 700;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .day-chevron { color: #007aff; font-size: 16px; }
+
+        /* History items */
+        .history-list {
+            background: #fff;
+            margin: 0 0 16px;
+        }
+
+        .history-item {
+            display: flex;
+            align-items: center;
+            padding: 11px 20px;
+            gap: 12px;
+            border-bottom: 0.5px solid #c6c6c8;
+        }
+        .history-item:last-child { border-bottom: none; }
+
+        .item-icon {
+            width: 28px; height: 28px;
+            border-radius: 6px;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 14px;
+            flex-shrink: 0;
+        }
+        .icon-google { background: #e8f0fe; color: #4285f4; }
+        .icon-wiki { background: #f0f0f0; color: #333; font-size: 12px; font-weight: 700; }
+        .icon-docs { background: #e8f5e9; color: #34a853; }
+        .icon-web { background: #f0f0f5; color: #8e8e93; }
+        .icon-social { background: #fce4ec; color: #e91e63; }
+        .icon-shop { background: #fff3e0; color: #ff9800; }
+        .icon-maps { background: #e8f5e9; color: #0f9d58; }
+        .icon-news { background: #f3e5f5; color: #9c27b0; }
+
+        .item-text { flex: 1; min-width: 0; }
+        .item-title {
+            font-size: 15px;
+            font-weight: 400;
+            color: #000;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        .item-url {
+            font-size: 12px;
+            color: #8e8e93;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            margin-top: 1px;
+        }
+
+        .flag-item .item-title { color: #000; }
+        .flag-item .item-url { color: #8e8e93; }
+
+        /* Evidence banner */
+        .evidence-banner {
+            background: #1c1c1e;
+            color: #fff;
+            margin: 0 0 0;
+            padding: 14px 20px;
+            font-size: 11px;
+            letter-spacing: 0.5px;
+            text-align: center;
+            font-family: 'SF Mono', 'Menlo', monospace;
+        }
+        .evidence-banner strong { color: #ff453a; }
+    </style>
+</head>
+<body>
+    <div class="status-bar">
+        <span class="time">09:14</span>
+        <div class="status-icons">
+            <span>📶</span>
+            <span>WiFi</span>
+            <span class="battery">72%</span>
+        </div>
+    </div>
+
+    <div class="top-bar">
+        <div class="top-btn">•••</div>
+        <div class="top-btn">✕</div>
+    </div>
+
+    <div class="nav-header">Senast sparat ›</div>
+
+    <div class="tab-bar">
+        <div class="tab">📖</div>
+        <div class="tab">👓</div>
+        <div class="tab active">🕐</div>
+    </div>
+
+    <div class="evidence-banner">
+        <strong>BEVIS B-12</strong> — Webbläsarhistorik extraherad från Astrid Viklunds dator<br>
+        Dnr: 0201-K283947-24 — Utredningsenheten, Skärgårdsregionen
+    </div>
+
+    <div class="day-group">
+        <div class="day-header">oktober 2024 <span class="day-chevron">⌄</span></div>
+        <div class="history-list">
+            <div class="history-item"><div class="item-icon icon-maps">📍</div><div class="item-text"><div class="item-title">Google Maps – Stavsnäs brygga parkering</div><div class="item-url">https://www.google.com/maps/place/Stavsnäs...</div></div></div>
+            <div class="history-item"><div class="item-icon icon-web">🌧</div><div class="item-text"><div class="item-title">Väder Kalvskär helg oktober – SMHI</div><div class="item-url">https://www.smhi.se/vader/prognoser/...</div></div></div>
+            <div class="history-item"><div class="item-icon icon-web">⛴</div><div class="item-text"><div class="item-title">Stavsnäs Färjetrafik – Tidtabell oktober</div><div class="item-url">https://www.stavsnasfarjetrafik.se/tidtabell</div></div></div>
+            <div class="history-item"><div class="item-icon icon-web">⚖️</div><div class="item-text"><div class="item-title">Rättigheter forskningsassistent manuskript upp...</div><div class="item-url">https://www.juridiskradgivning.se/upphovsratt/...</div></div></div>
+            <div class="history-item"><div class="item-icon icon-web">📜</div><div class="item-text"><div class="item-title">Arvslag testamente regler Sverige – Sök på G...</div><div class="item-url">https://www.google.com/search?q=arvslag+testam...</div></div></div>
+            <div class="history-item"><div class="item-icon icon-docs">📄</div><div class="item-text"><div class="item-title">Spegeldjuret (manuscript full) – Google Dokument</div><div class="item-url">https://docs.google.com/document/d/1xK4m...</div></div></div>
+        </div>
+    </div>
+
+    <div class="day-group">
+        <div class="day-header">september 2024 <span class="day-chevron">⌄</span></div>
+        <div class="history-list">
+            <div class="history-item"><div class="item-icon icon-social">📸</div><div class="item-text"><div class="item-title">Instagram – @astridviklund</div><div class="item-url">https://www.instagram.com/astridviklund</div></div></div>
+            <div class="history-item"><div class="item-icon icon-web">🔗</div><div class="item-text"><div class="item-title">Williams & Hart – About Us – Literary Agency</div><div class="item-url">https://www.williams-hart.co.uk/about</div></div></div>
+            <div class="history-item"><div class="item-icon icon-social">💼</div><div class="item-text"><div class="item-title">Erik Nordgren – LinkedIn</div><div class="item-url">https://www.linkedin.com/in/eriknordgren</div></div></div>
+            <div class="history-item"><div class="item-icon icon-docs">📄</div><div class="item-text"><div class="item-title">Spegeldjuret kapitel 14 (final edit) – Google D...</div><div class="item-url">https://docs.google.com/document/d/1xK4m...</div></div></div>
+            <div class="history-item"><div class="item-icon icon-docs">📄</div><div class="item-text"><div class="item-title">Spegeldjuret slutredigering – Google Dokument</div><div class="item-url">https://docs.google.com/document/d/1xK4m...</div></div></div>
+        </div>
+    </div>
+
+    <div class="day-group">
+        <div class="day-header">augusti 2024 <span class="day-chevron">⌄</span></div>
+        <div class="history-list">
+            <div class="history-item"><div class="item-icon icon-web">📺</div><div class="item-text"><div class="item-title">Netflix</div><div class="item-url">https://www.netflix.com/browse</div></div></div>
+            <div class="history-item flag-item"><div class="item-icon icon-google">G</div><div class="item-text"><div class="item-title">famous aconite murders history – Sök på Google</div><div class="item-url">https://www.google.com/search?q=famous+aconite...</div></div></div>
+            <div class="history-item"><div class="item-icon icon-shop">🛒</div><div class="item-text"><div class="item-title">Giftmord genom tiderna – Adlibris</div><div class="item-url">https://www.adlibris.com/se/bok/giftmord-...</div></div></div>
+            <div class="history-item flag-item"><div class="item-icon icon-google">G</div><div class="item-text"><div class="item-title">stormhatt odling skandinavien klimat – Sök på G...</div><div class="item-url">https://www.google.com/search?q=stormhatt+odli...</div></div></div>
+            <div class="history-item flag-item"><div class="item-icon icon-google">G</div><div class="item-text"><div class="item-title">aconitum napellus growing conditions sweden – S...</div><div class="item-url">https://www.google.com/search?q=aconitum+napel...</div></div></div>
+        </div>
+    </div>
+
+    <div class="day-group">
+        <div class="day-header">juli 2024 <span class="day-chevron">⌄</span></div>
+        <div class="history-list">
+            <div class="history-item"><div class="item-icon icon-docs">📄</div><div class="item-text"><div class="item-title">Spegeldjuret kapitel 15-16 – Google Dokument</div><div class="item-url">https://docs.google.com/document/d/1xK4m...</div></div></div>
+            <div class="history-item"><div class="item-icon icon-social">📸</div><div class="item-text"><div class="item-title">Instagram – @astridviklund</div><div class="item-url">https://www.instagram.com/astridviklund</div></div></div>
+            <div class="history-item flag-item"><div class="item-icon icon-google">G</div><div class="item-text"><div class="item-title">akonitin nedbrytning i kroppen tid – Sök på Go...</div><div class="item-url">https://www.google.com/search?q=akonitin+nedbr...</div></div></div>
+            <div class="history-item flag-item"><div class="item-icon icon-google">G</div><div class="item-text"><div class="item-title">akonitin spårbarhet rättsmedicin – Sök på Google</div><div class="item-url">https://www.google.com/search?q=akonitin+sp%C3...</div></div></div>
+            <div class="history-item flag-item"><div class="item-icon icon-google">G</div><div class="item-text"><div class="item-title">stormhatt extraktion tinktur – Sök på Google</div><div class="item-url">https://www.google.com/search?q=stormhatt+extr...</div></div></div>
+            <div class="history-item"><div class="item-icon icon-web">🍝</div><div class="item-text"><div class="item-title">Recept pasta carbonara – ICA</div><div class="item-url">https://www.ica.se/recept/pasta-carbonara/</div></div></div>
+            <div class="history-item flag-item"><div class="item-icon icon-google">G</div><div class="item-text"><div class="item-title">aconite tincture preparation extraction method...</div><div class="item-url">https://www.google.com/search?q=aconite+tinctu...</div></div></div>
+            <div class="history-item flag-item"><div class="item-icon icon-google">G</div><div class="item-text"><div class="item-title">aconitine solubility in ethanol alcohol – Sök p...</div><div class="item-url">https://www.google.com/search?q=aconitine+solu...</div></div></div>
+            <div class="history-item"><div class="item-icon icon-docs">📄</div><div class="item-text"><div class="item-title">Spegeldjuret kapitel 14 – Google Dokument</div><div class="item-url">https://docs.google.com/document/d/1xK4m...</div></div></div>
+        </div>
+    </div>
+
+    <div class="day-group">
+        <div class="day-header">juni 2024 <span class="day-chevron">⌄</span></div>
+        <div class="history-list">
+            <div class="history-item flag-item"><div class="item-icon icon-google">G</div><div class="item-text"><div class="item-title">can aconitine be detected post mortem – Sök på...</div><div class="item-url">https://www.google.com/search?q=can+aconitine+...</div></div></div>
+            <div class="history-item flag-item"><div class="item-icon icon-google">G</div><div class="item-text"><div class="item-title">aconitine metabolites urine blood test – Sök p...</div><div class="item-url">https://www.google.com/search?q=aconitine+meta...</div></div></div>
+            <div class="history-item flag-item"><div class="item-icon icon-google">G</div><div class="item-text"><div class="item-title">aconite detection autopsy toxicology report – S...</div><div class="item-url">https://www.google.com/search?q=aconite+detect...</div></div></div>
+            <div class="history-item"><div class="item-icon icon-web">🎵</div><div class="item-text"><div class="item-title">Spotify – Spellista: Skrivmusik</div><div class="item-url">https://open.spotify.com/playlist/...</div></div></div>
+            <div class="history-item flag-item"><div class="item-icon icon-google">G</div><div class="item-text"><div class="item-title">how fast does aconitine kill – Sök på Google</div><div class="item-url">https://www.google.com/search?q=how+fast+does+...</div></div></div>
+            <div class="history-item flag-item"><div class="item-icon icon-google">G</div><div class="item-text"><div class="item-title">aconite poisoning symptoms timeline progressio...</div><div class="item-url">https://www.google.com/search?q=aconite+poison...</div></div></div>
+            <div class="history-item flag-item"><div class="item-icon icon-google">G</div><div class="item-text"><div class="item-title">aconitum napellus lethal dose human – Sök på G...</div><div class="item-url">https://www.google.com/search?q=aconitum+napel...</div></div></div>
+            <div class="history-item"><div class="item-icon icon-social">📸</div><div class="item-text"><div class="item-title">Instagram – @astridviklund</div><div class="item-url">https://www.instagram.com/astridviklund</div></div></div>
+            <div class="history-item flag-item"><div class="item-icon icon-google">G</div><div class="item-text"><div class="item-title">aconitum alkaloids mechanism of action – Sök p...</div><div class="item-url">https://www.google.com/search?q=aconitum+alkal...</div></div></div>
+            <div class="history-item flag-item"><div class="item-icon icon-google">G</div><div class="item-text"><div class="item-title">monkshood poisoning history cases – Sök på Goo...</div><div class="item-url">https://www.google.com/search?q=monkshood+pois...</div></div></div>
+            <div class="history-item flag-item"><div class="item-icon icon-wiki">W</div><div class="item-text"><div class="item-title">Aconitum napellus – Wikipedia</div><div class="item-url">https://sv.wikipedia.org/wiki/Aconitum_napellus</div></div></div>
+        </div>
+    </div>
+
+    <div style="height:60px"></div>
+</body>
+</html>
