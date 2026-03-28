@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stavsnäs Färjetrafik — Bokningshistorik</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Source+Sans+3:wght@300;400;600;700&family=Source+Code+Pro:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        :root{--blue:#1a4b7a;--blue-dk:#0d2e4f;--blue-lt:#e8f0f8;--accent:#2d8bc9;--txt:#1a1a1a;--txt2:#4a4a4a;--muted:#6b6b6b;--brd:#c8d1da;--brd-lt:#e2e8ee;--bg:#f0f2f5;--card:#fff;--warn-bg:#fff3e0;--warn-brd:#e68a00}
+        *{margin:0;padding:0;box-sizing:border-box}
+        body{font-family:'Source Sans 3','Segoe UI',sans-serif;background:var(--bg);color:var(--txt);min-height:100vh;display:flex;flex-direction:column}
+        .hdr{background:linear-gradient(180deg,var(--blue-dk),var(--blue));color:#fff;border-bottom:3px solid var(--accent)}
+        .hdr-in{max-width:800px;margin:0 auto;padding:16px 24px;display:flex;align-items:center;justify-content:space-between}
+        .logo{display:flex;align-items:center;gap:12px}
+        .logo-ic{width:40px;height:40px;background:#fff;border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:22px}
+        .hdr h1{font-size:18px;font-weight:600}.hdr-sub{font-size:11px;opacity:.7;font-weight:300}
+        .hdr-r{font-size:11px;opacity:.6;text-align:right;line-height:1.6}
+        .warn{background:var(--warn-bg);border-bottom:1px solid var(--warn-brd);padding:8px 24px;font-size:12px;color:#7a4a00;text-align:center}
+        .warn strong{color:#5a3000}
+        .main{max-width:800px;margin:32px auto;padding:0 24px;flex:1}
+        .scard{background:var(--card);border:1px solid var(--brd);border-radius:6px;padding:28px;margin-bottom:24px}
+        .scard h2{font-size:16px;font-weight:600;color:var(--blue);margin-bottom:6px}
+        .scard p{font-size:13px;color:var(--muted);margin-bottom:20px}
+        .srow{display:flex;gap:12px;align-items:flex-end}
+        .sf{flex:1}.sf label{display:block;font-size:12px;font-weight:600;color:var(--txt2);margin-bottom:4px;text-transform:uppercase;letter-spacing:.5px}
+        .sf input{width:100%;padding:10px 12px;border:1px solid var(--brd);border-radius:4px;font-size:14px;font-family:'Source Code Pro',monospace;background:#fafbfc}
+        .sf input:focus{outline:none;border-color:var(--accent);box-shadow:0 0 0 3px rgba(45,139,201,.12)}
+        .btn{background:var(--blue);color:#fff;border:none;padding:10px 24px;border-radius:4px;font-size:14px;font-weight:600;cursor:pointer;white-space:nowrap}
+        .btn:hover{background:var(--blue-dk)}
+        .rc{background:var(--card);border:1px solid var(--brd);border-radius:6px;overflow:hidden;margin-bottom:16px}
+        .rc-h{background:var(--blue-lt);padding:14px 20px;border-bottom:1px solid var(--brd-lt);display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:4px}
+        .rc-h h3{font-size:14px;font-weight:600;color:var(--blue)}.rc-h span{font-size:12px;color:var(--muted)}
+        .rc-info{padding:12px 20px;font-size:13px;color:var(--txt2);border-bottom:1px solid var(--brd-lt)}
+        .table-wrap{overflow-x:auto;-webkit-overflow-scrolling:touch}
+        table{width:100%;border-collapse:collapse;min-width:580px}
+        th{text-align:left;padding:10px 12px;font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:.5px;color:var(--muted);background:#f8f9fa;border-bottom:1px solid var(--brd-lt);white-space:nowrap}
+        td{padding:10px 12px;font-size:12px;border-bottom:1px solid #f0f0f0;font-family:'Source Code Pro',monospace;white-space:nowrap}
+        tr:last-child td{border-bottom:none}tr:hover{background:#fafbfc}
+        .ok{color:#1b7a3d;font-weight:600;font-size:11px}
+        .hl{background:#fff8f0!important}
+        .rc-f{padding:10px 20px;background:#fafbfc;border-top:1px solid var(--brd-lt);font-size:11px;color:var(--muted);display:flex;justify-content:space-between;flex-wrap:wrap;gap:4px}
+        .nr{background:var(--card);border:1px solid var(--brd);border-radius:6px;padding:40px;text-align:center}
+        .nr-i{font-size:36px;margin-bottom:12px;opacity:.3}.nr-t{font-size:15px;font-weight:600;margin-bottom:8px}.nr-p{font-size:13px;color:var(--muted)}
+        .ftr{padding:20px 24px;text-align:center;font-size:11px;color:var(--muted);border-top:1px solid var(--brd-lt)}
+        @media(max-width:600px){.srow{flex-direction:column}.hdr-r{display:none}}
+    </style>
+</head>
+<body>
+    <header class="hdr"><div class="hdr-in"><div class="logo"><div class="logo-ic">⛴</div><div><h1>Stavsnäs Färjetrafik AB</h1><div class="hdr-sub">Boknings- och passagerarsystem</div></div></div><div class="hdr-r">SFT Intern v4.2<br>Behörighet: Polis/Åklagare</div></div></header>
+    <div class="warn"><strong>⚠ Begränsad åtkomst</strong> — Domstolsbeslut DB-2024-89234.</div>
+    <main class="main">
+        <div class="scard">
+            <h2>Sök bokningshistorik</h2>
+            <p>Sök på passagerarnamn för att hämta bokningar inom den begärda perioden (oktober 2024).</p>
+            <div class="srow"><div class="sf"><label>Passagerarnamn</label><input type="text" id="q" placeholder="Efternamn eller fullständigt namn..."></div><button class="btn" onclick="go()">Sök</button></div>
+        </div>
+        <div id="r"></div>
+    </main>
+    <footer class="ftr">Stavsnäs Färjetrafik AB — Bokningssystem SFT v4.2 — Data begärd av Utredningsenheten, Skärgårdsregionen</footer>
+<script>
+const D={
+"sigrid holm":{name:"Sigrid Holm",pnr:"721015-XXXX",rows:[
+{nr:"SFT-2024-08412",dat:"2024-10-26",avg:"14:00",ank:"14:35",fran:"Stavsnäs",till:"Kalvskär",st:"Bekräftad",check:"13:52",hl:1},
+{nr:"SFT-2024-08413",dat:"2024-10-27",avg:"11:30",ank:"12:05",fran:"Kalvskär",till:"Stavsnäs",st:"Bekräftad",check:"11:24"}]},
+"thomas nordgren":{name:"Thomas Nordgren",pnr:"930904-XXXX",rows:[
+{nr:"SFT-2024-08455",dat:"2024-10-26",avg:"17:00",ank:"17:35",fran:"Stavsnäs",till:"Kalvskär",st:"Bekräftad",check:"16:48"},
+{nr:"SFT-2024-08456",dat:"2024-10-27",avg:"11:30",ank:"12:05",fran:"Kalvskär",till:"Stavsnäs",st:"Bekräftad",check:"11:22"}]},
+"astrid viklund":{name:"Astrid Viklund",pnr:"950322-XXXX",rows:[
+{nr:"SFT-2024-08456",dat:"2024-10-26",avg:"17:00",ank:"17:35",fran:"Stavsnäs",till:"Kalvskär",st:"Bekräftad",check:"16:51"},
+{nr:"SFT-2024-08457",dat:"2024-10-27",avg:"11:30",ank:"12:05",fran:"Kalvskär",till:"Stavsnäs",st:"Bekräftad",check:"11:26"}]},
+"maja lindström":{name:"Maja Lindström",pnr:"900611-XXXX",rows:[
+{nr:"SFT-2024-08390",dat:"2024-10-26",avg:"10:00",ank:"10:35",fran:"Stavsnäs",till:"Kalvskär",st:"Bekräftad",check:"09:47"},
+{nr:"SFT-2024-08391",dat:"2024-10-27",avg:"11:30",ank:"12:05",fran:"Kalvskär",till:"Stavsnäs",st:"Bekräftad",check:"11:20"}]},
+"leo bergström":{name:"Leo Bergström",pnr:"791115-XXXX",rows:[
+{nr:"SFT-2024-08391",dat:"2024-10-26",avg:"10:00",ank:"10:35",fran:"Stavsnäs",till:"Kalvskär",st:"Bekräftad",check:"09:51"},
+{nr:"SFT-2024-08392",dat:"2024-10-27",avg:"11:30",ank:"12:05",fran:"Kalvskär",till:"Stavsnäs",st:"Bekräftad",check:"11:28"}]},
+"erik nordgren":{name:"Erik Nordgren",pnr:"660503-XXXX",rows:[
+{nr:"SFT-2024-08201",dat:"2024-10-20",avg:"09:00",ank:"09:35",fran:"Stavsnäs",till:"Kalvskär",st:"Bekräftad",check:"08:44"}]}
+};
+function go(){const q=document.getElementById('q').value.trim().toLowerCase();if(!q)return;let f=null;for(const[k,v]of Object.entries(D)){if(k.includes(q)||v.name.toLowerCase().includes(q)){f=v;break;}}f?show(f):noshow(q);}
+function show(d){const n=new Date().toLocaleString('sv-SE');let r=d.rows.map(b=>`<tr class="${b.hl?'hl':''}"><td>${b.nr}</td><td>${b.dat}</td><td>${b.avg}</td><td>${b.fran} → ${b.till}</td><td><span class="ok">✓ ${b.st}</span></td><td>${b.check}</td></tr>`).join('');
+document.getElementById('r').innerHTML=`<div class="rc"><div class="rc-h"><h3>Bokningshistorik — ${d.name}</h3><span>Period: okt 2024</span></div><div class="rc-info">Personnummer: <span style="font-family:'Source Code Pro',monospace">${d.pnr}</span></div><div class="table-wrap"><table><thead><tr><th>Bokningsnr</th><th>Datum</th><th>Avgång</th><th>Sträcka</th><th>Status</th><th>Incheckning</th></tr></thead><tbody>${r}</tbody></table></div><div class="rc-f"><span>Uppslag: ${n}</span><span>Källa: SFT Bokningssystem v4.2</span></div></div>`;}
+function noshow(q){document.getElementById('r').innerHTML=`<div class="nr"><div class="nr-i">⊘</div><div class="nr-t">Inga bokningar hittade</div><div class="nr-p">Söktermen <strong>"${q}"</strong> gav inga träffar för den begärda perioden.</div></div>`;}
+document.getElementById('q').addEventListener('keydown',function(e){if(e.key==='Enter')go();});
+</script>
+</body>
+</html>
