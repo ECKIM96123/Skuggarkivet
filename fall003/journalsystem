@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MediLog Pro v4.2</title>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { background: #c0c0c0; font-family: "Segoe UI", Tahoma, Geneva, sans-serif; font-size: 12px; min-height: 100vh; display: flex; flex-direction: column; }
+
+.title-bar { background: linear-gradient(to right, #003366, #0055a4); color: #fff; padding: 4px 8px; display: flex; justify-content: space-between; align-items: center; font-weight: bold; font-size: 13px; }
+.title-btns { display: flex; gap: 2px; }
+.title-btn { width: 21px; height: 21px; border: 1px solid rgba(255,255,255,0.2); display: flex; align-items: center; justify-content: center; font-size: 11px; cursor: pointer; background: rgba(255,255,255,0.1); color: #fff; }
+.title-btn:hover { background: rgba(255,255,255,0.25); }
+
+.toolbar { background: #d4d0c8; padding: 4px 6px; border-bottom: 1px solid #808080; display: flex; gap: 2px; flex-wrap: wrap; }
+.win-btn { padding: 3px 12px; font-family: "Segoe UI", Tahoma, sans-serif; font-size: 12px; background: #d4d0c8; border: 1px solid #808080; border-top-color: #fff; border-left-color: #fff; cursor: pointer; display: inline-flex; align-items: center; gap: 4px; }
+.win-btn:active, .win-btn.active { border-top-color: #404040; border-left-color: #404040; border-bottom-color: #fff; border-right-color: #fff; background: #e8e8e0; }
+.win-btn:hover { background: #e0ddd5; }
+
+.info-bar { background: #f0f0eb; padding: 8px 12px; border-bottom: 1px solid #c0c0c0; font-size: 12px; }
+.body-area { background: #fff; flex: 1; min-height: 400px; }
+
+.tab-bar { background: #d4d0c8; padding: 6px 8px 0; display: flex; gap: 0; border-bottom: 2px solid #fff; }
+.tab { padding: 5px 14px; border: 1px solid #808080; cursor: pointer; font-size: 11px; margin-bottom: -2px; background: #d4d0c8; border-bottom-color: #808080; }
+.tab.active { background: #fff; border-bottom-color: #fff; font-weight: bold; }
+.tab:hover:not(.active) { background: #e0ddd5; }
+
+.tab-content { padding: 12px; display: none; }
+.tab-content.active { display: block; }
+
+.status-bar { background: #d4d0c8; border-top: 1px solid #808080; padding: 3px 8px; font-size: 10px; color: #333; display: flex; justify-content: space-between; }
+
+table { width: 100%; border-collapse: collapse; font-size: 11px; font-family: Consolas, "Courier New", monospace; }
+th { background: #336699; color: #fff; padding: 5px 8px; text-align: left; font-weight: bold; font-size: 11px; border-right: 1px solid #4477aa; }
+td { padding: 4px 8px; border-bottom: 1px solid #e0e0e0; vertical-align: top; }
+tr:nth-child(even) { background: #f5f5f5; }
+tr:nth-child(odd) { background: #fff; }
+tr.row-red { background: #fff0f0 !important; }
+tr.row-red td.status-cell { color: #c00; font-weight: bold; }
+
+.info-table { font-family: Consolas, "Courier New", monospace; max-width: 550px; }
+.info-table td { padding: 4px 8px; border-bottom: 1px solid #e0e0e0; }
+.info-table td:first-child { font-weight: bold; width: 150px; background: #f8f8f5; }
+.info-table .deceased { color: #c00; font-weight: bold; }
+
+.center-box { display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 400px; background: #e8e8e0; flex: 1; }
+.dialog-box { background: #d4d0c8; border: 2px solid #808080; padding: 24px; width: 340px; }
+.dialog-box.wide { width: 420px; }
+.dialog-box h3 { font-size: 14px; margin-bottom: 16px; text-align: center; }
+.dialog-box label { display: block; margin-bottom: 2px; }
+.dialog-box input[type="text"], .dialog-box input[type="password"] { width: 100%; padding: 4px 6px; border: 1px solid #808080; font-family: "Segoe UI", Tahoma, sans-serif; font-size: 12px; background: #fff; margin-bottom: 10px; }
+.dialog-box .center { text-align: center; }
+.dialog-box .hint { margin-top: 12px; font-size: 10px; color: #666; text-align: center; }
+.error { color: #c00; font-size: 11px; margin-bottom: 8px; }
+
+.filter-row { margin-bottom: 8px; display: flex; align-items: center; gap: 8px; }
+.filter-row span { font-size: 11px; }
+.filter-row input { padding: 2px 6px; border: 1px solid #808080; font-size: 11px; font-family: Consolas, monospace; width: 220px; }
+.filter-row .clear-link { font-size: 10px; cursor: pointer; color: #336699; text-decoration: underline; }
+.footnote { margin-top: 8px; font-size: 10px; color: #888; font-family: "Segoe UI", Tahoma, sans-serif; }
+
+.hidden { display: none !important; }
+</style>
+</head>
+<body>
+
+<!-- ============ LOGIN SCREEN ============ -->
+<div id="screen-login">
+  <div class="title-bar"><span>🏥 MediLog Pro v4.2 — Inloggning</span><div></div></div>
+  <div class="center-box">
+    <div class="dialog-box">
+      <h3>🏥 MediLog Pro v4.2</h3>
+      <label>Användarnamn:</label>
+      <input type="text" id="login-user" value="utredare.polisen">
+      <label>Lösenord:</label>
+      <input type="password" id="login-pass" value="polisen2026">
+      <div class="center"><button class="win-btn" onclick="doLogin()">Logga in</button></div>
+      <div class="hint">Behörighet: Polismyndigheten (läsbehörighet)<br>Solhaga Äldreboende — Björkdalen</div>
+    </div>
+  </div>
+  <div class="status-bar"><span>Ej ansluten</span><span>MediLog Pro v4.2 © 2008 MediSoft AB</span></div>
+</div>
+
+<!-- ============ SEARCH SCREEN ============ -->
+<div id="screen-search" class="hidden">
+  <div class="title-bar">
+    <span>🏥 MediLog Pro v4.2 — Patientsök</span>
+    <div class="title-btns"><div class="title-btn">—</div><div class="title-btn">□</div><div class="title-btn">✕</div></div>
+  </div>
+  <div class="toolbar">
+    <button class="win-btn">🏠 Hem</button>
+    <button class="win-btn">📋 Patient</button>
+    <button class="win-btn">📄 Journal</button>
+    <button class="win-btn">🔄 Logg</button>
+    <button class="win-btn">📊 Rapport</button>
+    <button class="win-btn">❓ Hjälp</button>
+  </div>
+  <div class="center-box">
+    <div class="dialog-box wide">
+      <h3 style="text-align:left;font-size:13px;">Sök patient</h3>
+      <label>Namn eller personnummer:</label>
+      <input type="text" id="search-input" placeholder="T.ex. Ekdahl eller 1942-09-17" autofocus>
+      <div id="search-error" class="error hidden"></div>
+      <button class="win-btn" onclick="doSearch()">🔍 Sök</button>
+    </div>
+  </div>
+  <div class="status-bar"><span>Ansluten — Solhaga Äldreboende</span><span>MediLog Pro v4.2</span></div>
+</div>
+
+<!-- ============ PATIENT JOURNAL ============ -->
+<div id="screen-journal" class="hidden">
+  <div class="title-bar">
+    <span>🏥 MediLog Pro v4.2 — Patientjournal</span>
+    <div class="title-btns"><div class="title-btn">—</div><div class="title-btn">□</div><div class="title-btn" onclick="backToSearch()">✕</div></div>
+  </div>
+  <div class="toolbar">
+    <button class="win-btn">🏠 Hem</button>
+    <button class="win-btn">📋 Patient</button>
+    <button class="win-btn">📄 Journal</button>
+    <button class="win-btn">🔄 Logg</button>
+    <button class="win-btn">📊 Rapport</button>
+    <button class="win-btn">❓ Hjälp</button>
+  </div>
+  <div class="info-bar">
+    <strong>Patient: Ekdahl, Rune Vilhelm</strong>&nbsp;&nbsp;&nbsp;
+    Personnr: 1942-09-17-XXXX&nbsp;&nbsp;&nbsp;
+    Ansvarig läkare: Dr. Per Åkesson
+  </div>
+  <div class="tab-bar">
+    <div class="tab active" data-tab="tab-oversikt" onclick="switchTab(this)">Patientöversikt</div>
+    <div class="tab" data-tab="tab-medicin" onclick="switchTab(this)">Läkemedelslista</div>
+    <div class="tab" data-tab="tab-ordination" onclick="switchTab(this)">Ordinationsändringar</div>
+    <div class="tab" data-tab="tab-givning" onclick="switchTab(this)">Medicingivning</div>
+    <div class="tab" data-tab="tab-logg" onclick="switchTab(this)">Åtkomstlogg</div>
+  </div>
+  <div class="body-area">
+
+    <!-- TAB: Patientöversikt -->
+    <div id="tab-oversikt" class="tab-content active">
+      <table class="info-table">
+        <tr><td>Namn:</td><td>Ekdahl, Rune Vilhelm</td></tr>
+        <tr><td>Personnummer:</td><td>1942-09-17-XXXX</td></tr>
+        <tr><td>Född:</td><td>1942-09-17</td></tr>
+        <tr><td>Adress:</td><td>Solhaga Äldreboende, rum 7</td></tr>
+        <tr><td>Ansvarig läkare:</td><td>Dr. Per Åkesson</td></tr>
+        <tr><td>Diagnoser:</td><td>Förmaksflimmer (I48.9), Hypertoni (I10), Gastroesofageal reflux (K21.0)</td></tr>
+        <tr><td>Allergier:</td><td>Inga kända</td></tr>
+        <tr><td>Inskriven:</td><td>2024-11-03</td></tr>
+        <tr><td>Status:</td><td class="deceased">Avliden (2026-02-14)</td></tr>
+      </table>
+    </div>
+
+    <!-- TAB: Läkemedelslista -->
+    <div id="tab-medicin" class="tab-content">
+      <table>
+        <thead><tr><th>Läkemedel</th><th>Dos</th><th>Frekvens</th><th>Sedan</th><th>Status</th></tr></thead>
+        <tbody>
+          <tr><td>Digoxin (Lanoxin)</td><td>0,125 mg</td><td>1 x dagligen</td><td>2024-11-03</td><td>Aktiv</td></tr>
+          <tr><td>Warfarin (Waran)</td><td>2,5 mg</td><td>1 x dagligen</td><td>2024-11-03</td><td>Aktiv</td></tr>
+          <tr><td>Metoprolol</td><td>50 mg</td><td>2 x dagligen</td><td>2025-01-15</td><td>Aktiv</td></tr>
+          <tr><td>Omeprazol</td><td>20 mg</td><td>1 x dagligen</td><td>2025-03-20</td><td>Aktiv</td></tr>
+          <tr><td>Paracetamol</td><td>500 mg</td><td>Vid behov</td><td>2025-01-01</td><td>Aktiv</td></tr>
+        </tbody>
+      </table>
+      <div class="footnote">Aktuell medicinlista per senaste ordination. Historiska ändringar — se fliken "Ordinationsändringar".</div>
+    </div>
+
+    <!-- TAB: Ordinationsändringar -->
+    <div id="tab-ordination" class="tab-content">
+      <table>
+        <thead><tr><th>Datum</th><th>Ändring</th><th>Ändrad av</th><th>Kommentar</th></tr></thead>
+        <tbody>
+          <tr><td>2025-12-18</td><td>Omeprazol: 10 mg → 20 mg</td><td>Dr. Per Åkesson</td><td>Patienten rapporterar ökad reflux</td></tr>
+          <tr><td>2026-01-15</td><td>Paracetamol: tillagd vid behov</td><td>Dr. Per Åkesson</td><td>Ledvärk</td></tr>
+          <tr><td>2026-01-28</td><td>Metoprolol: 25 mg → 50 mg</td><td>M. Strand (VEC)</td><td>Enl. tel.instruktion Dr. Åkesson</td></tr>
+          <tr><td>2026-02-09</td><td>Digoxin: 0,125 mg → 0,25 mg</td><td>M. Strand (VEC)</td><td>Enl. läkarbedömning</td></tr>
+          <tr><td>2026-02-12</td><td>Digoxin: notering tillagd</td><td>S. Lindgren (USK)</td><td>Frågar om dosändring — stämmer denna?</td></tr>
+          <tr><td>2026-02-12</td><td>Digoxin: notering borttagen</td><td>M. Strand (VEC)</td><td>Noterat, dos korrekt.</td></tr>
+        </tbody>
+      </table>
+      <div class="footnote">VEC = Verksamhetschef. USK = Undersköterska. Ändringar gjorda av VEC sker efter muntlig instruktion från ansvarig läkare om inget annat anges.</div>
+    </div>
+
+    <!-- TAB: Medicingivning -->
+    <div id="tab-givning" class="tab-content">
+      <div class="filter-row">
+        <span>Filtrera:</span>
+        <input type="text" id="filter-givning" placeholder="T.ex. Digoxin eller Holmkvist" oninput="filterGivning()">
+        <span class="clear-link hidden" id="clear-givning" onclick="clearGivning()">Rensa</span>
+      </div>
+      <table id="table-givning">
+        <thead><tr><th>Datum</th><th>Tid</th><th>Läkemedel</th><th>Signerad av</th><th>Status</th></tr></thead>
+        <tbody></tbody>
+      </table>
+      <div class="footnote">Medicingivningshistorik för aktuella läkemedel.</div>
+    </div>
+
+    <!-- TAB: Åtkomstlogg -->
+    <div id="tab-logg" class="tab-content">
+      <div class="filter-row">
+        <span>Filtrera:</span>
+        <input type="text" id="filter-logg" placeholder="T.ex. M. Strand eller Ändrat" oninput="filterLogg()">
+        <span class="clear-link hidden" id="clear-logg" onclick="clearLogg()">Rensa</span>
+      </div>
+      <table id="table-logg">
+        <thead><tr><th>Tidstämpel</th><th>Användare</th><th>Åtgärd</th><th>Detalj</th></tr></thead>
+        <tbody></tbody>
+      </table>
+      <div class="footnote">Loggen är automatgenererad av MediLog Pro. Tidstämplar i UTC+1. "Mobil enhet" avser fjärråtkomst via MediLog-appen.</div>
+    </div>
+
+  </div>
+  <div class="status-bar">
+    <span>Patient: Ekdahl, Rune Vilhelm — Ansluten</span>
+    <span>Polismyndigheten (läsbehörighet) — MediLog Pro v4.2</span>
+  </div>
+</div>
+
+<script>
+const VALID = ["rune ekdahl","ekdahl","rune","1942-09-17","194209170000","ekdahl, rune","rune vilhelm ekdahl"];
+
+const LOGG = [
+  ["2026-01-21 08:04","S. Lindgren","Läst journal","—"],
+  ["2026-01-22 23:18","M. Strand","Läst journal","Mobil enhet"],
+  ["2026-01-25 09:12","Dr. P. Åkesson","Läst journal","—"],
+  ["2026-01-28 10:45","M. Strand","Ändrat ordination","Metoprolol 25 → 50 mg"],
+  ["2026-01-30 01:42","M. Strand","Läst journal","Mobil enhet"],
+  ["2026-02-01 08:12","J. Holmkvist","Läst journal","—"],
+  ["2026-02-03 14:45","S. Lindgren","Läst journal","—"],
+  ["2026-02-05 09:30","Dr. P. Åkesson","Läst journal","—"],
+  ["2026-02-05 22:56","M. Strand","Läst journal","Mobil enhet"],
+  ["2026-02-07 14:10","S. Lindgren","Läst journal","—"],
+  ["2026-02-09 11:17","M. Strand","Ändrat ordination","Digoxin 0,125 → 0,25 mg"],
+  ["2026-02-09 11:18","M. Strand","Lagt till kommentar","Enl. läkarbedömning"],
+  ["2026-02-10 06:50","J. Holmkvist","Kvitterat medicingivning","Digoxin 0,25 mg"],
+  ["2026-02-11 06:58","J. Holmkvist","Kvitterat medicingivning","Digoxin 0,25 mg"],
+  ["2026-02-12 06:52","J. Holmkvist","Kvitterat medicingivning","Digoxin 0,25 mg"],
+  ["2026-02-12 14:22","S. Lindgren","Lagt till notering","Fråga om digoxindos"],
+  ["2026-02-12 15:03","M. Strand","Tagit bort notering","Noterat, dos korrekt"],
+  ["2026-02-13 07:10","L. Persson","Kvitterat medicingivning","Digoxin 0,25 mg"],
+  ["2026-02-14 02:31","M. Strand","Läst journal","Mobil enhet"],
+  ["2026-02-14 02:33","M. Strand","Ändrat ordination","Digoxin 0,25 → 0,125 mg"],
+  ["2026-02-14 06:20","J. Holmkvist","Läst journal","—"],
+];
+
+const GIVNING = [
+  ["2026-02-08","07:12","Digoxin 0,125 mg","J. Holmkvist","Given"],
+  ["2026-02-08","07:12","Warfarin 2,5 mg","J. Holmkvist","Given"],
+  ["2026-02-08","07:15","Metoprolol 50 mg","J. Holmkvist","Given"],
+  ["2026-02-08","13:00","Metoprolol 50 mg","S. Lindgren","Given"],
+  ["2026-02-09","07:05","Digoxin 0,125 mg","J. Holmkvist","Given"],
+  ["2026-02-09","07:05","Warfarin 2,5 mg","J. Holmkvist","Given"],
+  ["2026-02-10","06:50","Digoxin 0,25 mg","J. Holmkvist","Given"],
+  ["2026-02-10","06:50","Warfarin 2,5 mg","J. Holmkvist","Given"],
+  ["2026-02-10","06:52","Metoprolol 50 mg","J. Holmkvist","Given"],
+  ["2026-02-11","06:58","Digoxin 0,25 mg","J. Holmkvist","Given"],
+  ["2026-02-11","06:58","Warfarin 2,5 mg","J. Holmkvist","Given"],
+  ["2026-02-11","07:00","Metoprolol 50 mg","J. Holmkvist","Given"],
+  ["2026-02-12","06:52","Digoxin 0,25 mg","J. Holmkvist","Given"],
+  ["2026-02-12","06:52","Warfarin 2,5 mg","J. Holmkvist","Given"],
+  ["2026-02-12","06:55","Metoprolol 50 mg","J. Holmkvist","Given"],
+  ["2026-02-13","07:10","Digoxin 0,25 mg","L. Persson","Given"],
+  ["2026-02-13","07:10","Warfarin 2,5 mg","L. Persson","Given"],
+  ["2026-02-13","07:12","Metoprolol 50 mg","L. Persson","Given"],
+  ["2026-02-14","—","Digoxin 0,125 mg","—","Ej given (pat. avliden)"],
+];
+
+function doLogin() {
+  document.getElementById("screen-login").classList.add("hidden");
+  document.getElementById("screen-search").classList.remove("hidden");
+  document.getElementById("search-input").focus();
+}
+
+function doSearch() {
+  var q = document.getElementById("search-input").value.toLowerCase().trim();
+  var err = document.getElementById("search-error");
+  if (VALID.indexOf(q) !== -1) {
+    document.getElementById("screen-search").classList.add("hidden");
+    document.getElementById("screen-journal").classList.remove("hidden");
+    renderLogg(LOGG);
+    renderGivning(GIVNING);
+  } else {
+    err.textContent = "Ingen patient hittades. Kontrollera namn eller personnummer.";
+    err.classList.remove("hidden");
+  }
+}
+
+function backToSearch() {
+  document.getElementById("screen-journal").classList.add("hidden");
+  document.getElementById("screen-search").classList.remove("hidden");
+  document.getElementById("search-input").value = "";
+  document.getElementById("search-error").classList.add("hidden");
+}
+
+document.addEventListener("keydown", function(e) {
+  if (e.key === "Enter") {
+    if (!document.getElementById("screen-login").classList.contains("hidden")) doLogin();
+    else if (!document.getElementById("screen-search").classList.contains("hidden")) doSearch();
+  }
+});
+
+function switchTab(el) {
+  document.querySelectorAll(".tab").forEach(t => t.classList.remove("active"));
+  document.querySelectorAll(".tab-content").forEach(t => t.classList.remove("active"));
+  el.classList.add("active");
+  document.getElementById(el.dataset.tab).classList.add("active");
+}
+
+function renderLogg(data) {
+  var tbody = document.querySelector("#table-logg tbody");
+  tbody.innerHTML = "";
+  data.forEach(function(r, i) {
+    var tr = document.createElement("tr");
+    r.forEach(function(cell, j) {
+      var td = document.createElement("td");
+      td.textContent = cell;
+      if (j === 0) td.style.whiteSpace = "nowrap";
+      tr.appendChild(td);
+    });
+    tbody.appendChild(tr);
+  });
+}
+
+function renderGivning(data) {
+  var tbody = document.querySelector("#table-givning tbody");
+  tbody.innerHTML = "";
+  data.forEach(function(r, i) {
+    var tr = document.createElement("tr");
+    var isEj = r[4].indexOf("Ej") !== -1;
+    if (isEj) tr.classList.add("row-red");
+    r.forEach(function(cell, j) {
+      var td = document.createElement("td");
+      td.textContent = cell;
+      if (j === 0) td.style.whiteSpace = "nowrap";
+      if (j === 4 && isEj) td.classList.add("status-cell");
+      tr.appendChild(td);
+    });
+    tbody.appendChild(tr);
+  });
+}
+
+function filterLogg() {
+  var q = document.getElementById("filter-logg").value.toLowerCase();
+  var cl = document.getElementById("clear-logg");
+  cl.classList.toggle("hidden", !q);
+  var filtered = q ? LOGG.filter(function(r) {
+    return r.join(" ").toLowerCase().indexOf(q) !== -1;
+  }) : LOGG;
+  renderLogg(filtered);
+}
+
+function clearLogg() {
+  document.getElementById("filter-logg").value = "";
+  document.getElementById("clear-logg").classList.add("hidden");
+  renderLogg(LOGG);
+}
+
+function filterGivning() {
+  var q = document.getElementById("filter-givning").value.toLowerCase();
+  var cl = document.getElementById("clear-givning");
+  cl.classList.toggle("hidden", !q);
+  var filtered = q ? GIVNING.filter(function(r) {
+    return r.join(" ").toLowerCase().indexOf(q) !== -1;
+  }) : GIVNING;
+  renderGivning(filtered);
+}
+
+function clearGivning() {
+  document.getElementById("filter-givning").value = "";
+  document.getElementById("clear-givning").classList.add("hidden");
+  renderGivning(GIVNING);
+}
+</script>
+</body>
+</html>
