@@ -3,89 +3,273 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>E-postutdrag — Monica Strand</title>
+<title>E-posttråd — Monica Strand</title>
 
 <style>
+*{box-sizing:border-box;margin:0;padding:0}
 body{
-    font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
-    background:#f5f5f5;
-    max-width:600px;
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Arial,sans-serif;
+    background:#eef1f5;
+    color:#202124;
+    max-width:760px;
     margin:0 auto;
+    min-height:100vh;
 }
 
-.header{
-    background:#1c1c1e;
-    color:white;
-    padding:12px;
-    text-align:center;
+.casebar{
+    background:#1f2937;
+    color:#fff;
+    padding:12px 18px;
     font-size:12px;
+    letter-spacing:.3px;
+}
+.casebar strong{color:#f87171}
+
+.mail-app{
+    background:#fff;
+    margin:18px;
+    border-radius:14px;
+    box-shadow:0 8px 30px rgba(0,0,0,.08);
+    overflow:hidden;
+}
+
+.topbar{
+    padding:16px 18px;
+    border-bottom:1px solid #e5e7eb;
+    background:#f9fafb;
+}
+
+.topbar h1{
+    font-size:21px;
+    margin-bottom:6px;
+}
+
+.topbar p{
+    font-size:13px;
+    color:#6b7280;
+}
+
+.thread-subject{
+    padding:20px 22px 8px;
+    font-size:23px;
+    font-weight:650;
+}
+
+.thread-meta{
+    padding:0 22px 18px;
+    font-size:13px;
+    color:#6b7280;
+    border-bottom:1px solid #e5e7eb;
 }
 
 .email{
-    background:white;
-    padding:15px;
-    border-bottom:1px solid #ddd;
-    cursor:pointer;
+    padding:18px 22px;
+    border-bottom:1px solid #e5e7eb;
 }
 
-.email:hover{background:#f2f2f7}
-
-.subject{font-weight:600}
-.meta{color:#888;font-size:12px}
-
-.full{
-    display:none;
-    padding:15px;
-    background:#fafafa;
+.email-head{
+    display:flex;
+    gap:12px;
+    align-items:flex-start;
+    margin-bottom:12px;
 }
 
-.open .full{display:block}
+.avatar{
+    width:38px;
+    height:38px;
+    border-radius:50%;
+    background:#2563eb;
+    color:#fff;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-weight:700;
+    font-size:13px;
+    flex-shrink:0;
+}
+
+.avatar.karl{background:#374151}
+
+.sender{
+    font-weight:650;
+    font-size:15px;
+}
+
+.address{
+    font-size:12px;
+    color:#6b7280;
+    margin-top:2px;
+}
+
+.date{
+    margin-left:auto;
+    font-size:12px;
+    color:#6b7280;
+    white-space:nowrap;
+}
+
+.subject-line{
+    font-size:13px;
+    color:#374151;
+    background:#f3f4f6;
+    padding:8px 10px;
+    border-radius:8px;
+    margin-bottom:12px;
+}
+
+.body{
+    font-size:15px;
+    line-height:1.6;
+    white-space:pre-line;
+}
+
+.signature{
+    margin-top:12px;
+    color:#4b5563;
+}
+
+.footer{
+    text-align:center;
+    font-size:11px;
+    color:#6b7280;
+    padding:18px;
+}
+
+@media(max-width:600px){
+    .mail-app{margin:0;border-radius:0}
+    .date{display:block;margin-left:0;margin-top:4px}
+    .email-head{align-items:flex-start}
+}
 </style>
 </head>
 
 <body>
 
-<div class="header">
-BEVIS DOK-11 — E-postutdrag — Monica Strand
+<div class="casebar">
+    <strong>SEKRETESS</strong> — DOK-11 — E-postutdrag Monica Strand — Fall Nr. 003: Vita Korridorer
 </div>
 
-<div class="email" onclick="toggle(this)">
-<div class="subject">Bemanningsläget</div>
-<div class="meta">22 jan 2026</div>
-<div class="full">
-Karl, vi ligger under miniminivå på nattpersonal...
-</div>
-</div>
+<main class="mail-app">
 
-<div class="email" onclick="toggle(this)">
-<div class="subject">Re: Bemanningsläget</div>
-<div class="meta">23 jan 2026</div>
-<div class="full">
-Ingen budget just nu. Håll det under kontroll.
-</div>
-</div>
+    <section class="topbar">
+        <h1>Inkorg / Trådvy</h1>
+        <p>Konto: monica.strand@solhagaomsorg.se · Period: 2026-01-20 — 2026-02-14</p>
+    </section>
 
-<div class="email" onclick="toggle(this)">
-<div class="subject">Akut — boende hotar med IVO</div>
-<div class="meta">8 feb 2026</div>
-<div class="full">
-Rune Ekdahl tänker anmäla oss till IVO...
-</div>
-</div>
+    <div class="thread-subject">Bemanningsläget / Akut — boende hotar med IVO</div>
+    <div class="thread-meta">
+        6 meddelanden i konversationen · Källa: beslag av e-postkonto, beslut 2026-02-17
+    </div>
 
-<div class="email" onclick="toggle(this)">
-<div class="subject">Re: Akut</div>
-<div class="meta">8 feb 2026</div>
-<div class="full">
-Fixa det. Jag vill inte ha någon anmälan.
-</div>
-</div>
+    <article class="email">
+        <div class="email-head">
+            <div class="avatar">MS</div>
+            <div>
+                <div class="sender">Monica Strand</div>
+                <div class="address">Från: monica.strand@solhagaomsorg.se<br>Till: karl.nilsson@solhagaomsorg.se</div>
+            </div>
+            <div class="date">22 jan 2026, 09:14</div>
+        </div>
+        <div class="subject-line">Ämne: Bemanningsläget</div>
+        <div class="body">Karl, jag vill flagga igen att vi ligger under miniminivå på nattpersonal sedan november. Ssk jobbar ensamma på nätterna. Om vi får en IVO-anmälan hamnar vi illa till.
 
-<script>
-function toggle(el){
-    el.classList.toggle("open");
-}
-</script>
+Behöver budget för vikarie eller ett beslut från dig att vi accepterar risken.
+
+<span class="signature">// Monica</span></div>
+    </article>
+
+    <article class="email">
+        <div class="email-head">
+            <div class="avatar karl">KN</div>
+            <div>
+                <div class="sender">Karl Nilsson</div>
+                <div class="address">Från: karl.nilsson@solhagaomsorg.se<br>Till: monica.strand@solhagaomsorg.se</div>
+            </div>
+            <div class="date">23 jan 2026, 16:02</div>
+        </div>
+        <div class="subject-line">Ämne: Re: Bemanningsläget</div>
+        <div class="body">Ingen budget just nu. Håll det under kontroll. Du vet vad som står på spel för oss alla.
+
+<span class="signature">// Karl</span></div>
+    </article>
+
+    <article class="email">
+        <div class="email-head">
+            <div class="avatar">MS</div>
+            <div>
+                <div class="sender">Monica Strand</div>
+                <div class="address">Från: monica.strand@solhagaomsorg.se<br>Till: karl.nilsson@solhagaomsorg.se</div>
+            </div>
+            <div class="date">8 feb 2026, 11:45</div>
+        </div>
+        <div class="subject-line">Ämne: Akut — boende hotar med IVO</div>
+        <div class="body">Karl, Rune Ekdahl har sagt rakt ut att han tänker anmäla oss till IVO. Han är pensionerad jurist och har redan kontaktat en advokat.
+
+Om anmälan går in granskar de allt — bemanning, avvikelser, rutiner. Vi klarar inte en granskning.
+
+Behöver veta hur du vill att jag hanterar det.
+
+<span class="signature">// Monica</span></div>
+    </article>
+
+    <article class="email">
+        <div class="email-head">
+            <div class="avatar karl">KN</div>
+            <div>
+                <div class="sender">Karl Nilsson</div>
+                <div class="address">Från: karl.nilsson@solhagaomsorg.se<br>Till: monica.strand@solhagaomsorg.se</div>
+            </div>
+            <div class="date">8 feb 2026, 14:30</div>
+        </div>
+        <div class="subject-line">Ämne: Re: Akut — boende hotar med IVO</div>
+        <div class="body">Fixa det. Jag vill inte ha någon anmälan. Prata med honom.
+
+Det här är ditt ansvar.
+
+<span class="signature">// Karl</span></div>
+    </article>
+
+    <article class="email">
+        <div class="email-head">
+            <div class="avatar">MS</div>
+            <div>
+                <div class="sender">Monica Strand</div>
+                <div class="address">Från: monica.strand@solhagaomsorg.se<br>Till: karl.nilsson@solhagaomsorg.se</div>
+            </div>
+            <div class="date">10 feb 2026, 08:22</div>
+        </div>
+        <div class="subject-line">Ämne: Re: Akut — boende hotar med IVO</div>
+        <div class="body">Har pratat med Ekdahl. Han är inte lätt att övertyga.
+
+Erbjudit extra bemanning på natt från mars men han sa att det inte räcker. Han vill se förändring nu.
+
+Jag jobbar på det.
+
+<span class="signature">// Monica</span></div>
+    </article>
+
+    <article class="email">
+        <div class="email-head">
+            <div class="avatar">MS</div>
+            <div>
+                <div class="sender">Monica Strand</div>
+                <div class="address">Från: monica.strand@solhagaomsorg.se<br>Till: karl.nilsson@solhagaomsorg.se</div>
+            </div>
+            <div class="date">13 feb 2026, 21:08</div>
+        </div>
+        <div class="subject-line">Ämne: Uppdatering</div>
+        <div class="body">Jag tror vi hittar en väg framåt med Ekdahl.
+
+Tar det nästa vecka.
+
+<span class="signature">// Monica</span></div>
+    </article>
+
+</main>
+
+<div class="footer">
+    E-postdata extraherad ur beslagtaget konto · Utredningsenheten — Inlandsregionen · Dnr: UE-IR 2026-0331
+</div>
 
 </body>
 </html>
