@@ -3,83 +3,102 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SKUGGARKIVET • Fall Nr. 003: Vita Korridorer</title>
+    <title>SKUGGARKIVET • E-postutdrag – Monica Strand</title>
     <style>
         :root {
-            --bg: #0f0f0f;
-            --text: #e0e0e0;
+            --bg: #0a0a0a;
+            --card: #121212;
             --accent: #b71c1c;
-            --card: #1a1a1a;
+            --text: #e0e0e0;
+            --from: #1e3a8a;
         }
         body {
             margin: 0;
-            font-family: 'Segoe UI', system-ui, sans-serif;
+            font-family: 'Segoe UI', Arial, sans-serif;
             background: var(--bg);
             color: var(--text);
             line-height: 1.6;
         }
         header {
-            background: linear-gradient(to bottom, #1f1f1f, #0f0f0f);
-            border-bottom: 4px solid var(--accent);
-            padding: 2rem 1rem;
+            background: #1f1f1f;
+            border-bottom: 5px solid var(--accent);
+            padding: 1.5rem 1rem;
             text-align: center;
-        }
-        .container {
-            max-width: 1100px;
-            margin: 2rem auto;
-            padding: 0 1rem;
-        }
-        h1 {
-            margin: 0;
-            font-size: 2.8rem;
-            color: white;
-            letter-spacing: 2px;
-        }
-        .subtitle {
-            color: #aaa;
-            font-size: 1.1rem;
-            margin-top: 0.5rem;
+            position: relative;
         }
         .stamp {
             position: absolute;
-            top: 20px;
-            right: 30px;
+            top: 15px;
+            right: 25px;
             color: var(--accent);
-            font-size: 3.5rem;
-            font-weight: bold;
-            opacity: 0.15;
-            transform: rotate(-12deg);
+            font-size: 4rem;
+            font-weight: 900;
+            opacity: 0.12;
+            transform: rotate(-15deg);
             pointer-events: none;
-            user-select: none;
         }
-        .content {
+        .container {
+            max-width: 900px;
+            margin: 2rem auto;
+            padding: 0 1rem;
+        }
+        .email-thread {
             background: var(--card);
             border: 1px solid #333;
-            padding: 2.5rem;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.6);
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.7);
         }
-        .section {
-            margin-bottom: 3rem;
+        .email-header {
+            background: #1a1a1a;
+            padding: 1.2rem 1.5rem;
+            border-bottom: 1px solid #333;
         }
-        h2 {
-            color: var(--accent);
-            border-bottom: 2px solid #333;
-            padding-bottom: 0.5rem;
-        }
-        .e-post {
-            background: #0a0a0a;
-            border-left: 6px solid var(--accent);
-            padding: 1.5rem;
-            margin: 1.5rem 0;
-            font-family: monospace;
+        .email-subject {
+            font-size: 1.35rem;
+            font-weight: 600;
+            color: white;
+            margin: 0 0 0.8rem 0;
         }
         .meta {
-            color: #888;
+            font-size: 0.95rem;
+            color: #aaa;
+            line-height: 1.5;
+        }
+        .email-body {
+            padding: 1.8rem 1.5rem;
+        }
+        .message {
+            margin-bottom: 2.5rem;
+            padding: 1.4rem 1.6rem;
+            border-radius: 6px;
+            position: relative;
+        }
+        .message.outgoing {
+            background: #1e2a44;
+            border-left: 5px solid #3b82f6;
+            margin-left: 40px;
+        }
+        .message.incoming {
+            background: #2a1f1f;
+            border-left: 5px solid var(--accent);
+        }
+        .message-header {
+            margin-bottom: 0.8rem;
             font-size: 0.9rem;
+            color: #bbb;
+        }
+        .from {
+            font-weight: 600;
+            color: #ddd;
+        }
+        .re {
+            color: #ff9800;
+            font-weight: 600;
         }
         footer {
             text-align: center;
-            padding: 3rem 1rem;
+            padding: 3rem 1rem 2rem;
             color: #555;
             font-size: 0.9rem;
         }
@@ -92,74 +111,84 @@
 <body>
     <header>
         <div class="stamp">SEKRETESS</div>
-        <h1>SKUGGARKIVET</h1>
-        <p class="subtitle">Fall Nr. 003 — Vita Korridorer</p>
-        <p>Dnr: UE-IR 2026-0331 • Utredningsenheten — Inlandsregionen</p>
+        <h1>SKUGGARKIVET — Fall Nr. 003: Vita Korridorer</h1>
+        <p style="color:#aaa; margin:0.5rem 0 0;">E-postutdrag • monica.strand@solhagaomsorg.se • Dnr: UE-IR 2026-0331</p>
     </header>
 
     <div class="container">
-        <div class="content">
+        <div class="email-thread">
 
-            <div class="section">
-                <h2>Ärendeöversikt</h2>
-                <p><strong>Den 14 februari 2026</strong> avled Rune Ekdahl, 83 år, på Solhaga Äldreboende i Björkdalen. Initialt bedömdes dödsfallet som naturligt (hjärtstillestånd). Två dagar senare inkom ett anonymt brev till polisen:</p>
-                <blockquote style="font-style:italic; border-left:4px solid #b71c1c; padding-left:1rem;">
-                    „Rune Ekdahl dog inte av naturliga orsaker. Någon på Solhaga vet vad som hände.“
-                </blockquote>
-                <p>En förundersökning har inletts. Materialet är sekretessbelagt.</p>
-            </div>
-
-            <div class="section">
-                <h2>E-postutdrag — Monica Strand</h2>
-                <div class="e-post">
-                    <p class="meta"><strong>E-post 3</strong> • 2026-02-08 11:45</p>
-                    <p><strong>Från:</strong> monica.strand@solhagaomsorg.se<br>
-                       <strong>Till:</strong> karl.nilsson@solhagaomsorg.se<br>
-                       <strong>Ämne:</strong> Akut — boende hotar med IVO</p>
-                    <p>Karl, Rune Ekdahl har sagt rakt ut att han tänker anmäla oss till IVO. Han är pensionerad jurist och har redan kontaktat en advokat. Om anmälan går in granskar de allt — bemanning, avvikelser, rutiner. Vi klarar inte en granskning. Behöver veta hur du vill att jag hanterar det. // Monica</p>
-                </div>
-
-                <div class="e-post">
-                    <p class="meta"><strong>E-post 4</strong> • 2026-02-08 14:30</p>
-                    <p><strong>Från:</strong> karl.nilsson@solhagaomsorg.se<br>
-                       <strong>Till:</strong> monica.strand@solhagaomsorg.se<br>
-                       <strong>Ämne:</strong> Re: Akut — boende hotar med IVO</p>
-                    <p>Fixa det. Jag vill inte ha någon anmälan. Prata med honom. Det här är ditt ansvar. // Karl</p>
-                </div>
-
-                <div class="e-post">
-                    <p class="meta"><strong>E-post 6</strong> • 2026-02-13 21:08</p>
-                    <p><strong>Från:</strong> monica.strand@solhagaomsorg.se<br>
-                       <strong>Till:</strong> karl.nilsson@solhagaomsorg.se<br>
-                       <strong>Ämne:</strong> Uppdatering</p>
-                    <p>Jag tror vi hittar en väg framåt med Ekdahl. Tar det nästa vecka. // Monica</p>
+            <div class="email-header">
+                <div class="email-subject">Tråd: Akut — boende hotar med IVO</div>
+                <div class="meta">
+                    <strong>Konto:</strong> monica.strand@solhagaomsorg.se<br>
+                    <strong>Period:</strong> 2026-02-08 – 2026-02-13
                 </div>
             </div>
 
-            <div class="section">
-                <h2>Spelregler</h2>
-                <ol>
-                    <li>Läs igenom alla dokument i valfri ordning.</li>
-                    <li>Diskutera, anteckna och jämför uppgifter mellan handlingarna.</li>
-                    <li>När ni är redo, formulera: <strong>Vem? Hur? Varför?</strong></li>
-                    <li>Öppna lösningskuvertet och jämför med ert svar.</li>
-                </ol>
-                <p class="secret">Materialet innehåller 21 handlingar + ett förseglat lösningskuvert.</p>
-            </div>
+            <div class="email-body">
 
-            <div style="text-align:center; margin-top:3rem; padding-top:2rem; border-top:1px solid #333;">
-                <p><strong>Lycka till.</strong><br>
-                <span style="color:#666;">/ Skuggarkivet</span></p>
-            </div>
+                <!-- E-post 3 -->
+                <div class="message incoming">
+                    <div class="message-header">
+                        <span class="from">Monica Strand</span> &lt;monica.strand@solhagaomsorg.se&gt;<br>
+                        <strong>Till:</strong> Karl Nilsson &lt;karl.nilsson@solhagaomsorg.se&gt;<br>
+                        <strong>Ämne:</strong> Akut — boende hotar med IVO<br>
+                        <strong>Datum:</strong> 2026-02-08 11:45
+                    </div>
+                    <p>Karl,</p>
+                    <p>Rune Ekdahl har sagt rakt ut att han tänker anmäla oss till IVO. Han är pensionerad jurist och har redan kontaktat en advokat. Om anmälan går in granskar de allt — bemanning, avvikelser, rutiner. Vi klarar inte en granskning.</p>
+                    <p>Behöver veta hur du vill att jag hanterar det.</p>
+                    <p>// Monica</p>
+                </div>
 
+                <!-- E-post 4 -->
+                <div class="message outgoing">
+                    <div class="message-header">
+                        <span class="from">Karl Nilsson</span> &lt;karl.nilsson@solhagaomsorg.se&gt;<br>
+                        <strong>Till:</strong> Monica Strand<br>
+                        <span class="re">Re:</span> Akut — boende hotar med IVO<br>
+                        <strong>Datum:</strong> 2026-02-08 14:30
+                    </div>
+                    <p>Fixa det. Jag vill inte ha någon anmälan. Prata med honom. Det här är ditt ansvar.</p>
+                    <p>// Karl</p>
+                </div>
+
+                <!-- E-post 5 -->
+                <div class="message incoming">
+                    <div class="message-header">
+                        <span class="from">Monica Strand</span> &lt;monica.strand@solhagaomsorg.se&gt;<br>
+                        <strong>Till:</strong> Karl Nilsson<br>
+                        <span class="re">Re:</span> Akut — boende hotar med IVO<br>
+                        <strong>Datum:</strong> 2026-02-10 08:22
+                    </div>
+                    <p>Har pratat med Ekdahl. Han är inte lätt att övertyga. Erbjudit extra bemanning på natt från mars men han sa att det inte räcker. Han vill se förändring nu. Jag jobbar på det.</p>
+                    <p>// Monica</p>
+                </div>
+
+                <!-- E-post 6 -->
+                <div class="message incoming">
+                    <div class="message-header">
+                        <span class="from">Monica Strand</span> &lt;monica.strand@solhagaomsorg.se&gt;<br>
+                        <strong>Till:</strong> Karl Nilsson<br>
+                        <strong>Ämne:</strong> Uppdatering<br>
+                        <strong>Datum:</strong> 2026-02-13 21:08
+                    </div>
+                    <p>Jag tror vi hittar en väg framåt med Ekdahl. Tar det nästa vecka.</p>
+                    <p>// Monica</p>
+                </div>
+
+            </div>
+        </div>
+
+        <div style="text-align:center; margin-top:2.5rem; color:#666;">
+            <p><strong>Materialet är sekretessbelagt enligt OSL 18 kap. 1§.</strong><br>
+            Endast för utredningsgruppen.</p>
         </div>
     </div>
 
     <footer>
-        <p>Skapad för Skuggarkivet • Fall Nr. 003: Vita Korridorer • 2026</p>
-        <p style="margin-top:1rem; font-size:0.8rem; color:#444;">
-            Detta är en fiktiv utredning. Allt material är sekretessbelagt enligt OSL 18 kap. 1§.
-        </p>
+        <p>Skuggarkivet • Fall Nr. 003: Vita Korridorer • 2026</p>
     </footer>
 </body>
 </html>
