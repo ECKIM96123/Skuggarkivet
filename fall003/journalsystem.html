@@ -104,7 +104,7 @@ body{background:#eae7e2}
 
 <div id="screen-search" class="hidden">
 <div class="title-bar"><span>🏥 MediLog Pro v4.2 — Patientsök</span><div class="title-btns"><div class="title-btn">—</div><div class="title-btn">□</div><div class="title-btn">✕</div></div></div>
-<div class="toolbar"><button class="win-btn">🏠 Hem</button><button class="win-btn">📋 Patient</button><button class="win-btn">📄 Journal</button><button class="win-btn">🔄 Logg</button><button class="win-btn">📊 Rapport</button><button class="win-btn">❓ Hjälp</button></div>
+<div class="toolbar"><button class="win-btn">🏠 Hem</button><button class="win-btn" onclick="showPatientChooser()">📋 Patient</button><button class="win-btn">📄 Journal</button><button class="win-btn">🔄 Logg</button><button class="win-btn">📊 Rapport</button><button class="win-btn">❓ Hjälp</button></div>
 <div class="center-box">
 <div class="dialog-box wide">
 <h3>Sök patient</h3>
@@ -117,10 +117,27 @@ body{background:#eae7e2}
 <div class="status-bar"><span>Ansluten — Solhaga Äldreboende</span><span>MediLog Pro v4.2</span></div>
 </div>
 
+<div id="screen-patient-chooser" class="hidden">
+<div class="title-bar"><span>🏥 MediLog Pro v4.2 — Patientlista</span><div class="title-btns"><div class="title-btn">—</div><div class="title-btn">□</div><div class="title-btn" onclick="backToJournal()">✕</div></div></div>
+<div class="toolbar"><button class="win-btn">🏠 Hem</button><button class="win-btn" onclick="showPatientChooser()">📋 Patient</button><button class="win-btn" onclick="backToJournal()">📄 Journal</button><button class="win-btn">🔄 Logg</button><button class="win-btn">📊 Rapport</button><button class="win-btn">❓ Hjälp</button></div>
+<div class="center-box">
+<div class="dialog-box wide">
+<h3>Välj patient</h3>
+<table class="info-table" style="max-width:100%;width:100%;margin-bottom:12px">
+<tr><td style="width:120px">Rum 5</td><td><button class="win-btn" onclick="selectPatient('bergstrand')">Bergstrand, Astrid</button></td></tr>
+<tr><td>Rum 7</td><td><button class="win-btn" onclick="selectPatient('ekdahl')">Ekdahl, Rune Vilhelm</button></td></tr>
+<tr><td>Rum 11</td><td><button class="win-btn" onclick="selectPatient('andersson')">Andersson, Ingrid</button></td></tr>
+</table>
+<div class="hint">Visar patienter med journalaktivitet under vald period.</div>
+</div>
+</div>
+<div class="status-bar"><span>Ansluten — Solhaga Äldreboende</span><span>MediLog Pro v4.2</span></div>
+</div>
+
 <div id="screen-journal" class="hidden">
 <div class="title-bar"><span>🏥 MediLog Pro v4.2</span><div class="title-btns"><div class="title-btn">—</div><div class="title-btn">□</div><div class="title-btn" onclick="backToSearch()">✕</div></div></div>
-<div class="toolbar"><button class="win-btn">🏠 Hem</button><button class="win-btn">📋 Patient</button><button class="win-btn">📄 Journal</button><button class="win-btn">🔄 Logg</button><button class="win-btn">📊 Rapport</button><button class="win-btn">❓ Hjälp</button></div>
-<div class="info-bar"><strong>Patient: Ekdahl, Rune Vilhelm</strong><br>Personnr: 1942-09-17-XXXX · Läkare: Dr. Per Åkesson</div>
+<div class="toolbar"><button class="win-btn">🏠 Hem</button><button class="win-btn" onclick="showPatientChooser()">📋 Patient</button><button class="win-btn">📄 Journal</button><button class="win-btn">🔄 Logg</button><button class="win-btn">📊 Rapport</button><button class="win-btn">❓ Hjälp</button></div>
+<div class="info-bar" id="patient-info-bar"><strong>Patient: Ekdahl, Rune Vilhelm</strong><br>Personnr: 1942-09-17-XXXX · Läkare: Dr. Per Åkesson</div>
 <div class="tab-bar">
 <div class="tab active" data-tab="tab-oversikt" onclick="switchTab(this)">Översikt</div>
 <div class="tab" data-tab="tab-medicin" onclick="switchTab(this)">Läkemedel</div>
@@ -206,7 +223,19 @@ body{background:#eae7e2}
 </div>
 
 <script>
-var V=["rune ekdahl","ekdahl","rune","1942-09-17","194209170000","ekdahl, rune","rune vilhelm ekdahl"];
+var V=["rune ekdahl","ekdahl","rune","1942-09-17","194209170000","ekdahl, rune","rune vilhelm ekdahl","bergstrand","astrid bergstrand","andersson","ingrid andersson"];
+var currentPatient="ekdahl";
+var PAT={
+  ekdahl:{
+    title:"Ekdahl, Rune Vilhelm",personnr:"1942-09-17-XXXX",room:"Solhaga Äldreboende, rum 7",born:"1942-09-17",doctor:"Dr. Per Åkesson",diagnoses:"Förmaksflimmer (I48.9), Hypertoni (I10), Gastroesofageal reflux (K21.0)",allergies:"Inga kända",admitted:"2024-11-03",status:"Avliden (2026-02-14)",deceased:true
+  },
+  bergstrand:{
+    title:"Bergstrand, Astrid",personnr:"1938-04-02-XXXX",room:"Solhaga Äldreboende, rum 5",born:"1938-04-02",doctor:"Dr. Per Åkesson",diagnoses:"Diabetes typ 2 (E11.9), Hypertoni (I10), Artros (M15.9)",allergies:"Penicillin",admitted:"2023-08-19",status:"Inskriven",deceased:false
+  },
+  andersson:{
+    title:"Andersson, Ingrid",personnr:"1940-12-11-XXXX",room:"Solhaga Äldreboende, rum 11",born:"1940-12-11",doctor:"Dr. Per Åkesson",diagnoses:"KOL (J44.9), Osteoporos (M81.9), Sömnstörning (G47.9)",allergies:"Inga kända",admitted:"2025-02-03",status:"Inskriven",deceased:false
+  }
+};
 
 /*
 Förbättrad logg:
@@ -248,7 +277,7 @@ var L=[
 ["2026-02-14 06:20","J. Holmkvist","Läst journal","Ekdahl, R."]
 ];
 
-var G=[
+var G_EKDHL=[
 ["2026-02-08","07:12","Digoxin 0,125 mg","J. Holmkvist","Given"],
 ["2026-02-08","07:12","Warfarin 2,5 mg","J. Holmkvist","Given"],
 ["2026-02-08","07:15","Metoprolol 50 mg","J. Holmkvist","Given"],
@@ -270,15 +299,27 @@ var G=[
 ["2026-02-14","—","Digoxin 0,125 mg","—","Ej given (pat. avliden)"]
 ];
 
-var M=[
+var M_EKDHL=[
 ["Digoxin (Lanoxin)","0,125 mg","1 x dagligen","2024-11-03"],
 ["Warfarin (Waran)","2,5 mg","1 x dagligen","2024-11-03"],
 ["Metoprolol","50 mg","2 x dagligen","2025-01-15"],
 ["Omeprazol","20 mg","1 x dagligen","2025-03-20"],
 ["Paracetamol","500 mg","Vid behov","2025-01-01"]
 ];
+var M_BERGSTRAND=[
+["Metformin","500 mg","2 x dagligen","2024-02-12"],
+["Amlodipin","5 mg","1 x dagligen","2024-06-03"],
+["Paracetamol","500 mg","Vid behov","2023-08-19"],
+["Movicol","1 dospåse","Vid behov","2025-11-02"]
+];
+var M_ANDERSSON=[
+["Bricanyl Turbuhaler","0,5 mg/dos","Vid behov","2025-02-03"],
+["Alendronat","70 mg","1 x veckovis","2025-02-10"],
+["Kalcium/D-vitamin","500 mg/800 IE","1 x dagligen","2025-02-10"],
+["Zopiklon","5 mg","Till natten vid behov","2025-09-14"]
+];
 
-var O=[
+var O_EKDHL=[
 ["2025-12-18","Omeprazol: 10 → 20 mg","Dr. Per Åkesson","Ökad reflux"],
 ["2026-01-15","Paracetamol: tillagd","Dr. Per Åkesson","Ledvärk"],
 ["2026-01-28","Metoprolol: 25 → 50 mg","M. Strand (VEC)","Enl. tel. Dr. Åkesson"],
@@ -287,19 +328,59 @@ var O=[
 ["2026-02-12","Digoxin: notering borttagen","M. Strand (VEC)","Noterat. Dos bedöms korrekt."],
 ["2026-02-14","Digoxin: 0,25 → 0,125 mg","M. Strand (VEC)","Återställt enligt tidigare ordinationsnivå. Uppföljning med läkare."]
 ];
+var O_BERGSTRAND=[
+["2025-11-02","Movicol: tillagd vid behov","Dr. Per Åkesson","Förstoppningsbesvär"],
+["2026-01-15","Paracetamol: maxdos förtydligad","M. Strand (VEC)","Enl. rutin efter läkemedelsgenomgång"],
+["2026-02-14","Journal granskad","M. Strand (VEC)","Nattlig genomgång, ingen ändring"]
+];
+var O_ANDERSSON=[
+["2025-09-14","Zopiklon: tillagd vid behov","Dr. Per Åkesson","Sömnbesvär"],
+["2026-02-02","Bricanyl: administreringssätt förtydligat","M. Strand (VEC)","Enl. kontakt med vårdcentral"],
+["2026-02-14","Journal granskad","M. Strand (VEC)","Nattlig genomgång, ingen ändring"]
+];
+var G_BERGSTRAND=[
+["2026-02-13","07:05","Metformin 500 mg","L. Persson","Given"],
+["2026-02-13","07:05","Amlodipin 5 mg","L. Persson","Given"],
+["2026-02-14","06:48","Metformin 500 mg","J. Holmkvist","Given"],
+["2026-02-14","06:48","Amlodipin 5 mg","J. Holmkvist","Given"]
+];
+var G_ANDERSSON=[
+["2026-02-13","21:15","Zopiklon 5 mg","L. Persson","Given"],
+["2026-02-14","06:42","Kalcium/D-vitamin","J. Holmkvist","Given"],
+["2026-02-14","06:42","Bricanyl","J. Holmkvist","Ej given (ej behov)"]
+];
 
 function doLogin(){document.getElementById("screen-login").classList.add("hidden");document.getElementById("screen-search").classList.remove("hidden");document.getElementById("search-input").focus()}
-function doSearch(){var q=document.getElementById("search-input").value.toLowerCase().trim();if(V.indexOf(q)!==-1){document.getElementById("screen-search").classList.add("hidden");document.getElementById("screen-journal").classList.remove("hidden");renderAll()}else{var e=document.getElementById("search-error");e.textContent="Ingen patient hittades.";e.classList.remove("hidden")}}
-function backToSearch(){document.getElementById("screen-journal").classList.add("hidden");document.getElementById("screen-search").classList.remove("hidden");document.getElementById("search-input").value="";document.getElementById("search-error").classList.add("hidden")}
+function doSearch(){var q=document.getElementById("search-input").value.toLowerCase().trim();if(q.indexOf("bergstrand")!==-1||q.indexOf("astrid")!==-1){selectPatient("bergstrand");return}if(q.indexOf("andersson")!==-1||q.indexOf("ingrid")!==-1){selectPatient("andersson");return}if(V.indexOf(q)!==-1){selectPatient("ekdahl")}else{var e=document.getElementById("search-error");e.textContent="Ingen patient hittades.";e.classList.remove("hidden")}}
+function backToSearch(){document.getElementById("screen-journal").classList.add("hidden");document.getElementById("screen-patient-chooser").classList.add("hidden");document.getElementById("screen-search").classList.remove("hidden");document.getElementById("search-input").value="";document.getElementById("search-error").classList.add("hidden")}
+function showPatientChooser(){document.getElementById("screen-login").classList.add("hidden");document.getElementById("screen-search").classList.add("hidden");document.getElementById("screen-journal").classList.add("hidden");document.getElementById("screen-patient-chooser").classList.remove("hidden")}
+function backToJournal(){document.getElementById("screen-patient-chooser").classList.add("hidden");document.getElementById("screen-journal").classList.remove("hidden")}
+function selectPatient(id){currentPatient=id;document.getElementById("screen-login").classList.add("hidden");document.getElementById("screen-search").classList.add("hidden");document.getElementById("screen-patient-chooser").classList.add("hidden");document.getElementById("screen-journal").classList.remove("hidden");renderAll()}
 document.addEventListener("keydown",function(e){if(e.key==="Enter"){if(!document.getElementById("screen-login").classList.contains("hidden"))doLogin();else if(!document.getElementById("screen-search").classList.contains("hidden"))doSearch()}});
 function switchTab(el){document.querySelectorAll(".tab").forEach(function(t){t.classList.remove("active")});document.querySelectorAll(".tab-content").forEach(function(t){t.classList.remove("active")});el.classList.add("active");document.getElementById(el.dataset.tab).classList.add("active")}
 
 function c(rows){var h='<div class="m-card">';rows.forEach(function(r){h+='<div class="m-card-row"><div class="m-card-label">'+r[0]+'</div><div class="m-card-value">'+r[1]+'</div></div>'});return h+'</div>'}
 
+function getM(){return currentPatient==="bergstrand"?M_BERGSTRAND:currentPatient==="andersson"?M_ANDERSSON:M_EKDHL}
+function getO(){return currentPatient==="bergstrand"?O_BERGSTRAND:currentPatient==="andersson"?O_ANDERSSON:O_EKDHL}
+function getG(){return currentPatient==="bergstrand"?G_BERGSTRAND:currentPatient==="andersson"?G_ANDERSSON:G_EKDHL}
+function getL(){
+ if(currentPatient==="bergstrand")return L.filter(function(r){return r.join(" ").toLowerCase().indexOf("bergstrand")!==-1});
+ if(currentPatient==="andersson")return L.filter(function(r){return r.join(" ").toLowerCase().indexOf("andersson")!==-1});
+ return L.filter(function(r){return r.join(" ").toLowerCase().indexOf("ekdahl")!==-1||r[2].indexOf("ordination")!==-1||r[2].indexOf("notering")!==-1||r[2].indexOf("medicingivning")!==-1});
+}
 function renderAll(){
+var p=PAT[currentPatient];
+document.getElementById("patient-info-bar").innerHTML="<strong>Patient: "+p.title+"</strong><br>Personnr: "+p.personnr+" · Läkare: "+p.doctor;
+var rows=[["Namn",p.title],["Personnr",p.personnr],["Född",p.born],["Adress",p.room],["Läkare",p.doctor],["Diagnoser",p.diagnoses],["Allergier",p.allergies],["Inskriven",p.admitted],["Status",p.deceased?'<span class="deceased">'+p.status+'</span>':p.status]];
+var info='<table class="info-table">';rows.forEach(function(r){info+='<tr><td>'+r[0]+':</td><td>'+r[1]+'</td></tr>'});info+='</table>';document.querySelector("#tab-oversikt .desktop-table").innerHTML=info;
+document.querySelector("#tab-oversikt .mobile-cards").innerHTML=c(rows);
+var M=getM(),O=getO(),G=getG(),L0=getL();
+var med='<table><thead><tr><th>Läkemedel</th><th>Dos</th><th>Frekvens</th><th>Sedan</th><th>Status</th></tr></thead><tbody>';M.forEach(function(r){med+='<tr><td>'+r[0]+'</td><td>'+r[1]+'</td><td>'+r[2]+'</td><td>'+r[3]+'</td><td>Aktiv</td></tr>'});med+='</tbody></table>';document.querySelector("#tab-medicin .desktop-table").innerHTML=med;
 var mc="";M.forEach(function(r){mc+=c([["Läkemedel",r[0]],["Dos",r[1]],["Frekvens",r[2]],["Sedan",r[3]]])});document.getElementById("mobile-medicin").innerHTML=mc;
+var ord='<table><thead><tr><th>Datum</th><th>Ändring</th><th>Ändrad av</th><th>Kommentar</th></tr></thead><tbody>';O.forEach(function(r){ord+='<tr><td>'+r[0]+'</td><td>'+r[1]+'</td><td>'+r[2]+'</td><td>'+r[3]+'</td></tr>'});ord+='</tbody></table>';document.querySelector("#tab-ordination .desktop-table").innerHTML=ord;
 var oc="";O.forEach(function(r){oc+=c([["Datum",r[0]],["Ändring",r[1]],["Av",r[2]],["Kommentar",r[3]]])});document.getElementById("mobile-ordination").innerHTML=oc;
-rL(L);rG(G)}
+rL(L0);rG(G)}
 
 function rL(d){var tb=document.querySelector("#table-logg tbody");tb.innerHTML="";d.forEach(function(r){var tr=document.createElement("tr");r.forEach(function(v,j){var td=document.createElement("td");td.textContent=v;if(j===0)td.style.whiteSpace="nowrap";tr.appendChild(td)});tb.appendChild(tr)});
 var mc="";d.forEach(function(r){mc+=c([["Tid",r[0]],["Användare",r[1]],["Åtgärd",r[2]],["Detalj",r[3]]])});document.getElementById("mobile-logg").innerHTML=mc}
@@ -307,10 +388,10 @@ var mc="";d.forEach(function(r){mc+=c([["Tid",r[0]],["Användare",r[1]],["Åtgä
 function rG(d){var tb=document.querySelector("#table-givning tbody");tb.innerHTML="";d.forEach(function(r){var tr=document.createElement("tr");var e=r[4].indexOf("Ej")!==-1;if(e)tr.classList.add("row-red");r.forEach(function(v,j){var td=document.createElement("td");td.textContent=v;if(j===0)td.style.whiteSpace="nowrap";if(j===4&&e)td.classList.add("status-cell");tr.appendChild(td)});tb.appendChild(tr)});
 var mc="";d.forEach(function(r){var e=r[4].indexOf("Ej")!==-1;mc+=c([["Datum",r[0]],["Tid",r[1]],["Läkemedel",r[2]],["Signerad",r[3]],["Status",e?'<span style="color:#c00;font-weight:bold">'+r[4]+'</span>':r[4]]])});document.getElementById("mobile-givning").innerHTML=mc}
 
-function filterLogg(){var q=document.getElementById("filter-logg").value.toLowerCase();document.getElementById("clear-logg").classList.toggle("hidden",!q);rL(q?L.filter(function(r){return r.join(" ").toLowerCase().indexOf(q)!==-1}):L)}
-function clearLogg(){document.getElementById("filter-logg").value="";document.getElementById("clear-logg").classList.add("hidden");rL(L)}
-function filterGivning(){var q=document.getElementById("filter-givning").value.toLowerCase();document.getElementById("clear-givning").classList.toggle("hidden",!q);rG(q?G.filter(function(r){return r.join(" ").toLowerCase().indexOf(q)!==-1}):G)}
-function clearGivning(){document.getElementById("filter-givning").value="";document.getElementById("clear-givning").classList.add("hidden");rG(G)}
+function filterLogg(){var q=document.getElementById("filter-logg").value.toLowerCase();var base=getL();document.getElementById("clear-logg").classList.toggle("hidden",!q);rL(q?base.filter(function(r){return r.join(" ").toLowerCase().indexOf(q)!==-1}):base)}
+function clearLogg(){document.getElementById("filter-logg").value="";document.getElementById("clear-logg").classList.add("hidden");rL(getL())}
+function filterGivning(){var q=document.getElementById("filter-givning").value.toLowerCase();var base=getG();document.getElementById("clear-givning").classList.toggle("hidden",!q);rG(q?base.filter(function(r){return r.join(" ").toLowerCase().indexOf(q)!==-1}):base)}
+function clearGivning(){document.getElementById("filter-givning").value="";document.getElementById("clear-givning").classList.add("hidden");rG(getG())}
 </script>
 </body>
 </html>
