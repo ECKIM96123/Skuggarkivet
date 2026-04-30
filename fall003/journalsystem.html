@@ -1,5 +1,4 @@
 <!DOCTYPE html>
-
 <html lang="sv">
 <head>
 <meta charset="UTF-8">
@@ -70,7 +69,7 @@ body{background:#eae7e2}
 .mobile-cards{display:block}
 .filter-row{flex-wrap:wrap;gap:6px;margin-bottom:10px}
 .filter-row span{font-size:12px}
-.filter-row input{width:100%;padding:10px 12px;font-size:14px;border-radius:6px;border:1px solid #ccc;font-family:“Segoe UI”,Tahoma,sans-serif}
+.filter-row input{width:100%;padding:10px 12px;font-size:14px;border-radius:6px;border:1px solid #ccc;font-family:"Segoe UI",Tahoma,sans-serif}
 .clear-link{font-size:13px;padding:4px 0}
 .footnote{font-size:10px;padding:8px 2px;color:#aaa}
 .center-box{min-height:auto;padding:30px 14px;background:#eae7e2}
@@ -78,14 +77,13 @@ body{background:#eae7e2}
 .dialog-box.wide{width:100%;max-width:100%}
 .dialog-box h3{font-size:18px;margin-bottom:20px}
 .dialog-box label{font-size:13px;margin-bottom:4px;color:#555}
-.dialog-box input[type=“text”],.dialog-box input[type=“password”]{font-size:16px;padding:12px 14px;border-radius:6px;border:1px solid #ccc;margin-bottom:14px}
+.dialog-box input[type="text"],.dialog-box input[type="password"]{font-size:16px;padding:12px 14px;border-radius:6px;border:1px solid #ccc;margin-bottom:14px}
 .dialog-box .win-btn{width:100%;padding:14px;font-size:15px;justify-content:center;border-radius:6px;background:#336699;color:#fff;border:none;font-weight:bold}
 .dialog-box .win-btn:active{background:#274e78}
 .dialog-box .hint{font-size:11px;line-height:1.5}
 .error{font-size:13px}
 }
 </style>
-
 </head>
 <body>
 <div id="screen-login">
@@ -181,8 +179,9 @@ body{background:#eae7e2}
 <tr><td>2026-01-15</td><td>Paracetamol: tillagd vid behov</td><td>Dr. Per Åkesson</td><td>Ledvärk</td></tr>
 <tr><td>2026-01-28</td><td>Metoprolol: 25 mg → 50 mg</td><td>M. Strand (VEC)</td><td>Enl. tel.instruktion Dr. Åkesson</td></tr>
 <tr><td>2026-02-09</td><td>Digoxin: 0,125 mg → 0,25 mg</td><td>M. Strand (VEC)</td><td>Enl. läkarbedömning</td></tr>
-<tr><td>2026-02-12</td><td>Digoxin: notering tillagd</td><td>S. Lindgren (USK)</td><td>Frågar om dosändring — stämmer denna?</td></tr>
-<tr><td>2026-02-12</td><td>Digoxin: notering borttagen</td><td>M. Strand (VEC)</td><td>Noterat, dos korrekt.</td></tr>
+<tr><td>2026-02-12</td><td>Digoxin: notering tillagd</td><td>S. Lindgren (USK)</td><td>Patient yr/illamående. Noterat i samband med dosändring. Bör följas upp.</td></tr>
+<tr><td>2026-02-12</td><td>Digoxin: notering borttagen</td><td>M. Strand (VEC)</td><td>Noterat. Dos bedöms korrekt.</td></tr>
+<tr><td>2026-02-14</td><td>Digoxin: 0,25 mg → 0,125 mg</td><td>M. Strand (VEC)</td><td>Återställt enligt tidigare ordinationsnivå. Uppföljning med läkare.</td></tr>
 </tbody></table></div>
 <div class="mobile-cards" id="mobile-ordination"></div>
 <div class="footnote">VEC = Verksamhetschef. USK = Undersköterska.</div>
@@ -196,7 +195,7 @@ body{background:#eae7e2}
 </div>
 
 <div id="tab-logg" class="tab-content">
-<div class="filter-row"><span>Filtrera:</span><input type="text" id="filter-logg" placeholder="T.ex. M. Strand eller Ändrat" oninput="filterLogg()"><span class="clear-link hidden" id="clear-logg" onclick="clearLogg()">Rensa</span></div>
+<div class="filter-row"><span>Filtrera:</span><input type="text" id="filter-logg" placeholder="T.ex. M. Strand, Lindgren eller Digoxin" oninput="filterLogg()"><span class="clear-link hidden" id="clear-logg" onclick="clearLogg()">Rensa</span></div>
 <div class="desktop-table data-table-wrap table-scroll"><table id="table-logg"><thead><tr><th>Tidstämpel</th><th>Användare</th><th>Åtgärd</th><th>Detalj</th></tr></thead><tbody></tbody></table></div>
 <div class="mobile-cards" id="mobile-logg"></div>
 <div class="footnote">Automatgenererad. UTC+1. "Mobil enhet" = fjärråtkomst.</div>
@@ -208,29 +207,47 @@ body{background:#eae7e2}
 
 <script>
 var V=["rune ekdahl","ekdahl","rune","1942-09-17","194209170000","ekdahl, rune","rune vilhelm ekdahl"];
+
+/*
+Förbättrad logg:
+- Monica har etablerat mönster av kvälls-/nattläsning.
+- Andra patienter förekommer som brus.
+- Saras sena journalinloggning ger tvetydighet utan att göra henne till huvudmisstänkt.
+- Återställningen 02:33 är formulerad som administrativ justering, inte som uppenbar självsanering.
+*/
 var L=[
-["2026-01-21 08:04","S. Lindgren","Läst journal","—"],
-["2026-01-22 23:18","M. Strand","Läst journal","Mobil enhet"],
-["2026-01-25 09:12","Dr. P. Åkesson","Läst journal","—"],
+["2026-01-15 02:14","M. Strand","Läst journal","Mobil enhet — Bergstrand, A."],
+["2026-01-19 23:47","M. Strand","Läst journal","Mobil enhet — Andersson, I."],
+["2026-01-21 08:04","S. Lindgren","Läst journal","Ekdahl, R."],
+["2026-01-22 23:18","M. Strand","Läst journal","Mobil enhet — Ekdahl, R."],
+["2026-01-25 09:12","Dr. P. Åkesson","Läst journal","Ekdahl, R."],
+["2026-01-26 01:55","M. Strand","Läst journal","Mobil enhet — 2 patienter"],
 ["2026-01-28 10:45","M. Strand","Ändrat ordination","Metoprolol 25 → 50 mg"],
-["2026-01-30 01:42","M. Strand","Läst journal","Mobil enhet"],
-["2026-02-01 08:12","J. Holmkvist","Läst journal","—"],
-["2026-02-03 14:45","S. Lindgren","Läst journal","—"],
-["2026-02-05 09:30","Dr. P. Åkesson","Läst journal","—"],
-["2026-02-05 22:56","M. Strand","Läst journal","Mobil enhet"],
-["2026-02-07 14:10","S. Lindgren","Läst journal","—"],
+["2026-01-30 01:42","M. Strand","Läst journal","Mobil enhet — Ekdahl, R."],
+["2026-02-01 08:12","J. Holmkvist","Läst journal","Ekdahl, R."],
+["2026-02-02 22:18","M. Strand","Läst journal","Mobil enhet — 3 patienter"],
+["2026-02-03 14:45","S. Lindgren","Läst journal","Ekdahl, R."],
+["2026-02-05 09:30","Dr. P. Åkesson","Läst journal","Ekdahl, R."],
+["2026-02-05 22:56","M. Strand","Läst journal","Mobil enhet — Ekdahl, R."],
+["2026-02-07 14:10","S. Lindgren","Läst journal","Ekdahl, R."],
 ["2026-02-09 11:17","M. Strand","Ändrat ordination","Digoxin 0,125 → 0,25 mg"],
 ["2026-02-09 11:18","M. Strand","Lagt till kommentar","Enl. läkarbedömning"],
 ["2026-02-10 06:50","J. Holmkvist","Kvitterat medicingivning","Digoxin 0,25 mg"],
+["2026-02-11 00:34","M. Strand","Läst journal","Mobil enhet — 4 patienter"],
 ["2026-02-11 06:58","J. Holmkvist","Kvitterat medicingivning","Digoxin 0,25 mg"],
 ["2026-02-12 06:52","J. Holmkvist","Kvitterat medicingivning","Digoxin 0,25 mg"],
-["2026-02-12 14:22","S. Lindgren","Lagt till notering","Fråga om digoxindos"],
-["2026-02-12 15:03","M. Strand","Tagit bort notering","Noterat, dos korrekt"],
+["2026-02-12 14:22","S. Lindgren","Lagt till notering","Patient yr/illamående. Noterat i samband med dosändring. Bör följas upp."],
+["2026-02-12 15:03","M. Strand","Tagit bort notering","Noterat. Dos bedöms korrekt."],
 ["2026-02-13 07:10","L. Persson","Kvitterat medicingivning","Digoxin 0,25 mg"],
-["2026-02-14 02:31","M. Strand","Läst journal","Mobil enhet"],
-["2026-02-14 02:33","M. Strand","Ändrat ordination","Digoxin 0,25 → 0,125 mg"],
-["2026-02-14 06:20","J. Holmkvist","Läst journal","—"]
+["2026-02-13 23:41","M. Strand","Läst journal","Mobil enhet — 2 patienter"],
+["2026-02-13 23:50","S. Lindgren","Läst journal","Mobil enhet — Ekdahl, R."],
+["2026-02-14 02:29","M. Strand","Läst journal","Mobil enhet — Ekdahl, R."],
+["2026-02-14 02:31","M. Strand","Läst journal","Mobil enhet — Bergstrand, A."],
+["2026-02-14 02:33","M. Strand","Justerat ordination","Digoxin 0,25 → 0,125 mg. Återställt enligt tidigare ordinationsnivå. Uppföljning med läkare."],
+["2026-02-14 02:35","M. Strand","Läst journal","Mobil enhet — Andersson, I."],
+["2026-02-14 06:20","J. Holmkvist","Läst journal","Ekdahl, R."]
 ];
+
 var G=[
 ["2026-02-08","07:12","Digoxin 0,125 mg","J. Holmkvist","Given"],
 ["2026-02-08","07:12","Warfarin 2,5 mg","J. Holmkvist","Given"],
@@ -252,8 +269,24 @@ var G=[
 ["2026-02-13","07:12","Metoprolol 50 mg","L. Persson","Given"],
 ["2026-02-14","—","Digoxin 0,125 mg","—","Ej given (pat. avliden)"]
 ];
-var M=[["Digoxin (Lanoxin)","0,125 mg","1 x dagligen","2024-11-03"],["Warfarin (Waran)","2,5 mg","1 x dagligen","2024-11-03"],["Metoprolol","50 mg","2 x dagligen","2025-01-15"],["Omeprazol","20 mg","1 x dagligen","2025-03-20"],["Paracetamol","500 mg","Vid behov","2025-01-01"]];
-var O=[["2025-12-18","Omeprazol: 10 → 20 mg","Dr. Per Åkesson","Ökad reflux"],["2026-01-15","Paracetamol: tillagd","Dr. Per Åkesson","Ledvärk"],["2026-01-28","Metoprolol: 25 → 50 mg","M. Strand (VEC)","Enl. tel. Dr. Åkesson"],["2026-02-09","Digoxin: 0,125 → 0,25 mg","M. Strand (VEC)","Enl. läkarbedömning"],["2026-02-12","Digoxin: notering tillagd","S. Lindgren (USK)","Stämmer denna?"],["2026-02-12","Digoxin: notering borttagen","M. Strand (VEC)","Dos korrekt."]];
+
+var M=[
+["Digoxin (Lanoxin)","0,125 mg","1 x dagligen","2024-11-03"],
+["Warfarin (Waran)","2,5 mg","1 x dagligen","2024-11-03"],
+["Metoprolol","50 mg","2 x dagligen","2025-01-15"],
+["Omeprazol","20 mg","1 x dagligen","2025-03-20"],
+["Paracetamol","500 mg","Vid behov","2025-01-01"]
+];
+
+var O=[
+["2025-12-18","Omeprazol: 10 → 20 mg","Dr. Per Åkesson","Ökad reflux"],
+["2026-01-15","Paracetamol: tillagd","Dr. Per Åkesson","Ledvärk"],
+["2026-01-28","Metoprolol: 25 → 50 mg","M. Strand (VEC)","Enl. tel. Dr. Åkesson"],
+["2026-02-09","Digoxin: 0,125 → 0,25 mg","M. Strand (VEC)","Enl. läkarbedömning"],
+["2026-02-12","Digoxin: notering tillagd","S. Lindgren (USK)","Patient yr/illamående. Noterat i samband med dosändring. Bör följas upp."],
+["2026-02-12","Digoxin: notering borttagen","M. Strand (VEC)","Noterat. Dos bedöms korrekt."],
+["2026-02-14","Digoxin: 0,25 → 0,125 mg","M. Strand (VEC)","Återställt enligt tidigare ordinationsnivå. Uppföljning med läkare."]
+];
 
 function doLogin(){document.getElementById("screen-login").classList.add("hidden");document.getElementById("screen-search").classList.remove("hidden");document.getElementById("search-input").focus()}
 function doSearch(){var q=document.getElementById("search-input").value.toLowerCase().trim();if(V.indexOf(q)!==-1){document.getElementById("screen-search").classList.add("hidden");document.getElementById("screen-journal").classList.remove("hidden");renderAll()}else{var e=document.getElementById("search-error");e.textContent="Ingen patient hittades.";e.classList.remove("hidden")}}
@@ -279,6 +312,5 @@ function clearLogg(){document.getElementById("filter-logg").value="";document.ge
 function filterGivning(){var q=document.getElementById("filter-givning").value.toLowerCase();document.getElementById("clear-givning").classList.toggle("hidden",!q);rG(q?G.filter(function(r){return r.join(" ").toLowerCase().indexOf(q)!==-1}):G)}
 function clearGivning(){document.getElementById("filter-givning").value="";document.getElementById("clear-givning").classList.add("hidden");rG(G)}
 </script>
-
 </body>
 </html>
