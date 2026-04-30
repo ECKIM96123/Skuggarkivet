@@ -122,13 +122,13 @@ body{background:#eae7e2}
 <div class="toolbar"><button class="win-btn">🏠 Hem</button><button class="win-btn" onclick="showPatientChooser()">📋 Patient</button><button class="win-btn" onclick="backToJournal()">📄 Journal</button><button class="win-btn">🔄 Logg</button><button class="win-btn">📊 Rapport</button><button class="win-btn">❓ Hjälp</button></div>
 <div class="center-box">
 <div class="dialog-box wide">
-<h3>Välj patient</h3>
+<h3>Patientlista</h3>
 <table class="info-table" style="max-width:100%;width:100%;margin-bottom:12px">
-<tr><td style="width:120px">Rum 5</td><td><button class="win-btn" onclick="selectPatient('bergstrand')">Bergstrand, Astrid</button></td></tr>
-<tr><td>Rum 7</td><td><button class="win-btn" onclick="selectPatient('ekdahl')">Ekdahl, Rune Vilhelm</button></td></tr>
-<tr><td>Rum 11</td><td><button class="win-btn" onclick="selectPatient('andersson')">Andersson, Ingrid</button></td></tr>
+<tr><td style="width:90px">Rum 5</td><td><button class="win-btn" onclick="selectPatient('bergstrand')">Bergstrand, Astrid</button><br><span style="font-size:10px;color:#666">Diabetes typ 2 · Hypertoni · Artros</span></td></tr>
+<tr><td>Rum 7</td><td><button class="win-btn" onclick="selectPatient('ekdahl')">Ekdahl, Rune Vilhelm</button><br><span style="font-size:10px;color:#666">Förmaksflimmer · Hypertoni · Avliden 2026-02-14</span></td></tr>
+<tr><td>Rum 11</td><td><button class="win-btn" onclick="selectPatient('andersson')">Andersson, Ingrid</button><br><span style="font-size:10px;color:#666">KOL · Osteoporos · Sömnstörning</span></td></tr>
 </table>
-<div class="hint">Visar patienter med journalaktivitet under vald period.</div>
+<div class="hint">Välj patient för att öppna journal, läkemedel, ordinationer och logg.</div>
 </div>
 </div>
 <div class="status-bar"><span>Ansluten — Solhaga Äldreboende</span><span>MediLog Pro v4.2</span></div>
@@ -227,13 +227,13 @@ var V=["rune ekdahl","ekdahl","rune","1942-09-17","194209170000","ekdahl, rune",
 var currentPatient="ekdahl";
 var PAT={
   ekdahl:{
-    title:"Ekdahl, Rune Vilhelm",personnr:"1942-09-17-XXXX",room:"Solhaga Äldreboende, rum 7",born:"1942-09-17",doctor:"Dr. Per Åkesson",diagnoses:"Förmaksflimmer (I48.9), Hypertoni (I10), Gastroesofageal reflux (K21.0)",allergies:"Inga kända",admitted:"2024-11-03",status:"Avliden (2026-02-14)",deceased:true
+    title:"Ekdahl, Rune Vilhelm",personnr:"1942-09-17-XXXX",room:"Solhaga Äldreboende, rum 7",born:"1942-09-17",doctor:"Dr. Per Åkesson",diagnoses:"Förmaksflimmer (I48.9), Hypertoni (I10), Gastroesofageal reflux (K21.0)",allergies:"Inga kända",admitted:"2024-11-03",status:"Avliden (2026-02-14)",deceased:true,contact:"Son: Erik Ekdahl, 070-XXX XX 73",note:"Klar och orienterad. Sköter mycket själv men behöver läkemedelsstöd. Har uttryckt återkommande synpunkter på bemanning och rutiner."
   },
   bergstrand:{
-    title:"Bergstrand, Astrid",personnr:"1938-04-02-XXXX",room:"Solhaga Äldreboende, rum 5",born:"1938-04-02",doctor:"Dr. Per Åkesson",diagnoses:"Diabetes typ 2 (E11.9), Hypertoni (I10), Artros (M15.9)",allergies:"Penicillin",admitted:"2023-08-19",status:"Inskriven",deceased:false
+    title:"Bergstrand, Astrid",personnr:"1938-04-02-XXXX",room:"Solhaga Äldreboende, rum 5",born:"1938-04-02",doctor:"Dr. Per Åkesson",diagnoses:"Diabetes typ 2 (E11.9), Hypertoni (I10), Artros (M15.9), Recidiverande UVI",allergies:"Penicillin",admitted:"2023-08-19",status:"Inskriven",deceased:false,contact:"Dotter: Marianne Bergstrand, 070-XXX XX 22",note:"Går med rollator. Behöver hjälp med morgonrutiner och stödstrumpor. Blodsocker följs måndag, onsdag och fredag. Orolig nattetid periodvis."
   },
   andersson:{
-    title:"Andersson, Ingrid",personnr:"1940-12-11-XXXX",room:"Solhaga Äldreboende, rum 11",born:"1940-12-11",doctor:"Dr. Per Åkesson",diagnoses:"KOL (J44.9), Osteoporos (M81.9), Sömnstörning (G47.9)",allergies:"Inga kända",admitted:"2025-02-03",status:"Inskriven",deceased:false
+    title:"Andersson, Ingrid",personnr:"1940-12-11-XXXX",room:"Solhaga Äldreboende, rum 11",born:"1940-12-11",doctor:"Dr. Per Åkesson",diagnoses:"KOL (J44.9), Osteoporos (M81.9), Sömnstörning (G47.9), Tidigare höftfraktur",allergies:"Inga kända",admitted:"2025-02-03",status:"Inskriven",deceased:false,contact:"Son: Lars Andersson, 073-XXX XX 81",note:"Behöver inhalationsstöd vid behov. Fallrisk. Sover ofta oroligt och använder larmknapp nattetid. Har tillsyn vid kvällsrond."
   }
 };
 
@@ -309,14 +309,18 @@ var M_EKDHL=[
 var M_BERGSTRAND=[
 ["Metformin","500 mg","2 x dagligen","2024-02-12"],
 ["Amlodipin","5 mg","1 x dagligen","2024-06-03"],
+["Furadantin","50 mg","Till natten","2026-01-18"],
 ["Paracetamol","500 mg","Vid behov","2023-08-19"],
-["Movicol","1 dospåse","Vid behov","2025-11-02"]
+["Movicol","1 dospåse","Vid behov","2025-11-02"],
+["Oculac ögondroppar","1 droppe","Vid behov","2025-05-27"]
 ];
 var M_ANDERSSON=[
 ["Bricanyl Turbuhaler","0,5 mg/dos","Vid behov","2025-02-03"],
 ["Alendronat","70 mg","1 x veckovis","2025-02-10"],
 ["Kalcium/D-vitamin","500 mg/800 IE","1 x dagligen","2025-02-10"],
-["Zopiklon","5 mg","Till natten vid behov","2025-09-14"]
+["Zopiklon","5 mg","Till natten vid behov","2025-09-14"],
+["Incruse Ellipta","55 mikrogram","1 x dagligen","2025-04-21"],
+["Nässpray koksalt","1 spray","Vid behov","2025-12-02"]
 ];
 
 var O_EKDHL=[
@@ -331,26 +335,43 @@ var O_EKDHL=[
 var O_BERGSTRAND=[
 ["2025-11-02","Movicol: tillagd vid behov","Dr. Per Åkesson","Förstoppningsbesvär"],
 ["2026-01-15","Paracetamol: maxdos förtydligad","M. Strand (VEC)","Enl. rutin efter läkemedelsgenomgång"],
+["2026-01-18","Furadantin: tillagd","Dr. Per Åkesson","UVI-profylax efter upprepade besvär"],
+["2026-02-02","Blodsockerkontroll: schema ändrat","S. Lindgren (USK)","Mån/ons/fre före frukost"],
+["2026-02-11","Orolig natt, extra tillsyn","J. Holmkvist","Patient ringde larm 02:10, somnade om"],
 ["2026-02-14","Journal granskad","M. Strand (VEC)","Nattlig genomgång, ingen ändring"]
 ];
 var O_ANDERSSON=[
 ["2025-09-14","Zopiklon: tillagd vid behov","Dr. Per Åkesson","Sömnbesvär"],
+["2025-12-02","Nässpray koksalt: tillagd vid behov","Dr. Per Åkesson","Torra slemhinnor"],
+["2026-01-24","Fallrisk: tillsyn förtydligad","M. Strand (VEC)","Efter incident i badrum, inga skador"],
 ["2026-02-02","Bricanyl: administreringssätt förtydligat","M. Strand (VEC)","Enl. kontakt med vårdcentral"],
+["2026-02-13","Kvällsoro noterad","L. Persson","Larm 21:08, önskade vatten och extra filt"],
 ["2026-02-14","Journal granskad","M. Strand (VEC)","Nattlig genomgång, ingen ändring"]
 ];
 var G_BERGSTRAND=[
+["2026-02-12","07:03","Metformin 500 mg","J. Holmkvist","Given"],
+["2026-02-12","07:03","Amlodipin 5 mg","J. Holmkvist","Given"],
+["2026-02-12","21:10","Furadantin 50 mg","S. Lindgren","Given"],
 ["2026-02-13","07:05","Metformin 500 mg","L. Persson","Given"],
 ["2026-02-13","07:05","Amlodipin 5 mg","L. Persson","Given"],
+["2026-02-13","21:04","Furadantin 50 mg","L. Persson","Given"],
 ["2026-02-14","06:48","Metformin 500 mg","J. Holmkvist","Given"],
-["2026-02-14","06:48","Amlodipin 5 mg","J. Holmkvist","Given"]
+["2026-02-14","06:48","Amlodipin 5 mg","J. Holmkvist","Given"],
+["2026-02-14","06:49","Oculac ögondroppar","J. Holmkvist","Ej given (ej behov)"]
 ];
 var G_ANDERSSON=[
+["2026-02-12","07:08","Kalcium/D-vitamin","J. Holmkvist","Given"],
+["2026-02-12","07:09","Incruse Ellipta","J. Holmkvist","Given"],
+["2026-02-12","21:20","Zopiklon 5 mg","Anna Grip","Ej given (patient avböjde)"],
+["2026-02-13","07:11","Kalcium/D-vitamin","L. Persson","Given"],
+["2026-02-13","07:12","Incruse Ellipta","L. Persson","Given"],
 ["2026-02-13","21:15","Zopiklon 5 mg","L. Persson","Given"],
 ["2026-02-14","06:42","Kalcium/D-vitamin","J. Holmkvist","Given"],
+["2026-02-14","06:42","Incruse Ellipta","J. Holmkvist","Given"],
 ["2026-02-14","06:42","Bricanyl","J. Holmkvist","Ej given (ej behov)"]
 ];
 
-function doLogin(){document.getElementById("screen-login").classList.add("hidden");document.getElementById("screen-search").classList.remove("hidden");document.getElementById("search-input").focus()}
+function doLogin(){document.getElementById("screen-login").classList.add("hidden");showPatientChooser()}
 function doSearch(){var q=document.getElementById("search-input").value.toLowerCase().trim();if(q.indexOf("bergstrand")!==-1||q.indexOf("astrid")!==-1){selectPatient("bergstrand");return}if(q.indexOf("andersson")!==-1||q.indexOf("ingrid")!==-1){selectPatient("andersson");return}if(V.indexOf(q)!==-1){selectPatient("ekdahl")}else{var e=document.getElementById("search-error");e.textContent="Ingen patient hittades.";e.classList.remove("hidden")}}
 function backToSearch(){document.getElementById("screen-journal").classList.add("hidden");document.getElementById("screen-patient-chooser").classList.add("hidden");document.getElementById("screen-search").classList.remove("hidden");document.getElementById("search-input").value="";document.getElementById("search-error").classList.add("hidden")}
 function showPatientChooser(){document.getElementById("screen-login").classList.add("hidden");document.getElementById("screen-search").classList.add("hidden");document.getElementById("screen-journal").classList.add("hidden");document.getElementById("screen-patient-chooser").classList.remove("hidden")}
@@ -372,7 +393,7 @@ function getL(){
 function renderAll(){
 var p=PAT[currentPatient];
 document.getElementById("patient-info-bar").innerHTML="<strong>Patient: "+p.title+"</strong><br>Personnr: "+p.personnr+" · Läkare: "+p.doctor;
-var rows=[["Namn",p.title],["Personnr",p.personnr],["Född",p.born],["Adress",p.room],["Läkare",p.doctor],["Diagnoser",p.diagnoses],["Allergier",p.allergies],["Inskriven",p.admitted],["Status",p.deceased?'<span class="deceased">'+p.status+'</span>':p.status]];
+var rows=[["Namn",p.title],["Personnr",p.personnr],["Född",p.born],["Adress",p.room],["Läkare",p.doctor],["Diagnoser",p.diagnoses],["Allergier",p.allergies],["Inskriven",p.admitted],["Kontakt",p.contact],
 var info='<table class="info-table">';rows.forEach(function(r){info+='<tr><td>'+r[0]+':</td><td>'+r[1]+'</td></tr>'});info+='</table>';document.querySelector("#tab-oversikt .desktop-table").innerHTML=info;
 document.querySelector("#tab-oversikt .mobile-cards").innerHTML=c(rows);
 var M=getM(),O=getO(),G=getG(),L0=getL();
