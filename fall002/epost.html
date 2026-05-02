@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>E-postutdrag — Erik Nordgren</title>
+    <style>
+        *{margin:0;padding:0;box-sizing:border-box;-webkit-font-smoothing:antialiased}
+        body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','Helvetica Neue',sans-serif;background:#f5f5f5;color:#1a1a1a;max-width:600px;margin:0 auto;min-height:100vh}
+
+        .evidence-bar{background:#1c1c1e;color:#fff;padding:12px 16px;font-size:11px;letter-spacing:.3px;text-align:center;font-family:'Courier New',monospace}
+        .evidence-bar strong{color:#ff453a}
+
+        .inbox-header{background:#fff;border-bottom:1px solid #d1d1d6;padding:14px 16px}
+        .inbox-header h1{font-size:22px;font-weight:700}
+        .inbox-header p{font-size:12px;color:#8e8e93;margin-top:2px}
+
+        .email-list{background:#fff}
+
+        .email-item{display:flex;padding:12px 16px;border-bottom:.5px solid #c6c6c8;cursor:pointer;transition:background .15s}
+        .email-item:hover{background:#f2f2f7}
+        .email-item:active{background:#e5e5ea}
+
+        .email-avatar{width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:600;color:#fff;flex-shrink:0;margin-right:12px;margin-top:2px}
+        .av-maja{background:#5856d6}.av-erik{background:#34c759}.av-leo{background:#ff9500}.av-sigrid{background:#ff2d55}.av-advokat{background:#8e8e93}
+
+        .email-content{flex:1;min-width:0}
+        .email-top{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:2px}
+        .email-sender{font-size:15px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+        .email-date{font-size:12px;color:#8e8e93;flex-shrink:0;margin-left:8px}
+        .email-subject{font-size:14px;color:#1a1a1a;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;margin-bottom:2px}
+        .email-preview{font-size:13px;color:#8e8e93;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+        .email-chevron{color:#c7c7cc;font-size:18px;display:flex;align-items:center;margin-left:8px}
+
+        /* Expanded email view */
+        .email-full{display:none;background:#fff;border-bottom:1px solid #d1d1d6}
+        .email-full.open{display:block}
+        .email-full-header{padding:16px;border-bottom:.5px solid #e5e5ea}
+        .email-full-subject{font-size:18px;font-weight:700;margin-bottom:12px}
+        .ef-row{display:flex;margin-bottom:4px;font-size:13px}
+        .ef-label{color:#8e8e93;width:45px;flex-shrink:0}
+        .ef-val{color:#1a1a1a}
+        .email-full-body{padding:16px;font-size:15px;line-height:1.6;color:#1a1a1a}
+        .email-full-body .sent-from{margin-top:16px;font-size:12px;color:#8e8e93;font-style:italic}
+        .email-close{padding:12px 16px;text-align:center;font-size:14px;color:#007aff;cursor:pointer;border-top:.5px solid #e5e5ea}
+
+        .footer{padding:16px;text-align:center;font-size:10px;color:#8e8e93;background:#f5f5f5;border-top:1px solid #d1d1d6;margin-top:16px}
+    </style>
+</head>
+<body>
+
+<div class="evidence-bar"><strong>BEVIS DOK-12</strong> — E-postutdrag ur Erik Nordgrens konto — Dnr: 0201-K283947-24</div>
+
+<div class="inbox-header">
+    <h1>Inkorg</h1>
+    <p>erik.nordgren@nordgrenbooks.se — Period: sept–okt 2024 — 7 meddelanden säkrade</p>
+</div>
+
+<div class="email-list" id="emailList"></div>
+
+<div class="footer">
+    E-postdata extraherad 2024-10-28 av IT-forensiker Joakim Ström<br>
+    Utredningsenheten — Skärgårdsregionen
+</div>
+
+<script>
+const emails = [
+    {
+        id: 1,
+        sender: "Maja Lindström",
+        from: "maja.lindstrom@lindstromliterary.se",
+        to: "erik.nordgren@nordgrenbooks.se",
+        date: "15 sep",
+        time: "10:42",
+        fulldate: "2024-09-15, kl. 10:42",
+        subject: "Vi behöver prata — snälla ring mig",
+        preview: "Erik, jag har hört rykten som oroar mig väldigt mycket...",
+        body: "Erik, jag har hört rykten som oroar mig väldigt mycket. Stämmer det att du har haft kontakt med Williams & Hart? Vi har jobbat tillsammans i sex år och jag tycker att jag förtjänar att höra det direkt.\n\nMitt förlag har investerat allt i dig. JAG har investerat allt i dig.\n\nSnälla ring mig.",
+        avatar: "ML",
+        avclass: "av-maja"
+    },
+    {
+        id: 2,
+        sender: "Erik Nordgren",
+        from: "erik.nordgren@nordgrenbooks.se",
+        to: "maja.lindstrom@lindstromliterary.se",
+        date: "17 sep",
+        time: "14:08",
+        fulldate: "2024-09-17, kl. 14:08",
+        subject: "Re: Vi behöver prata",
+        preview: "Maja, jag utforskar mina alternativ. Det är allt...",
+        body: "Maja, jag utforskar mina alternativ. Det är allt. Vi kan prata om det på Kalvskär.\n\nTa det lugnt.",
+        avatar: "EN",
+        avclass: "av-erik"
+    },
+    {
+        id: 3,
+        sender: "Maja Lindström",
+        from: "maja.lindstrom@lindstromliterary.se",
+        to: "erik.nordgren@nordgrenbooks.se",
+        date: "3 okt",
+        time: "09:15",
+        fulldate: "2024-10-03, kl. 09:15",
+        subject: "Förnyelse av agenturavtalet",
+        preview: "Erik, vårt avtal löper ut den 31 december...",
+        body: "Erik, vårt avtal löper ut den 31 december. Bifogar förnyelseavtal.\n\nJag vill påminna om att jag har lagt ner min själ i din karriär. Utan mig hade Skuggdjuret aldrig nått den internationella marknaden.\n\nTänk på det.",
+        avatar: "ML",
+        avclass: "av-maja"
+    },
+    {
+        id: 4,
+        sender: "Sigrid Holm",
+        from: "sigrid.holm@gmail.com",
+        to: "erik.nordgren@nordgrenbooks.se",
+        date: "10 okt",
+        time: "22:34",
+        fulldate: "2024-10-10, kl. 22:34",
+        subject: "(inget ämne)",
+        preview: "Du vet vad jag har hittat. Du vet vad det betyder...",
+        body: "Du vet vad jag har hittat. Du vet vad det betyder.\n\nJag kommer till Kalvskär. Vi löser det här mellan oss — eller så löser jag det på mitt sätt.\n\nDitt val.",
+        avatar: "SH",
+        avclass: "av-sigrid"
+    },
+    {
+        id: 5,
+        sender: "Erik Nordgren",
+        from: "erik.nordgren@nordgrenbooks.se",
+        to: "advokat.ek@ekjuridik.se",
+        date: "18 okt",
+        time: "16:33",
+        fulldate: "2024-10-18, kl. 16:33",
+        subject: "Upphovsrättslig fråga — brådskande",
+        preview: "Marcus, jag behöver din hjälp med en känslig fråga...",
+        body: "Marcus, jag behöver din hjälp med en känslig fråga. Det finns ett gammalt manuskript som potentiellt kan kopplas till min debutroman. Jag vill försäkra mig om att det inte kan användas mot mig juridiskt.\n\nFinns det ett säkert sätt att hantera detta? Jag överväger att förstöra materialet.\n\nRing mig.",
+        avatar: "ME",
+        avclass: "av-advokat"
+    },
+    {
+        id: 6,
+        sender: "Leo Bergström",
+        from: "leo.bergstrom@bergstromlind.se",
+        to: "erik.nordgren@nordgrenbooks.se",
+        date: "22 okt",
+        time: "11:47",
+        fulldate: "2024-10-22, kl. 11:47",
+        subject: "Manuskriptet — deadline",
+        preview: "Erik, jag ska vara rak. Styrelsen pratar om att kräva...",
+        body: "Erik, jag ska vara rak. Styrelsen pratar om att kräva tillbaka förskottet om vi inte ser ett komplett manuskript innan årsskiftet.\n\nJag har hållit dem borta så länge jag kan men jag behöver något att visa dem.",
+        avatar: "LB",
+        avclass: "av-leo"
+    },
+    {
+        id: 7,
+        sender: "Maja Lindström",
+        from: "maja.lindstrom@lindstromliterary.se",
+        to: "k.andersson@williams-hart.co.uk",
+        date: "27 okt",
+        time: "00:15",
+        fulldate: "2024-10-27, kl. 00:15",
+        subject: "Re: Nordic representation",
+        preview: "Katarina, jag har tänkt på ert förslag...",
+        body: "Katarina, jag har tänkt på ert förslag. Om Erik faktiskt lämnar mig behöver jag en plan B. Kan vi ses i London nästa vecka? Jag vill diskutera villkoren.\n\nMen inget till Erik — han får inte veta att jag pratar med er.",
+        sentfrom: "Skickas från min telefon",
+        avatar: "ML",
+        avclass: "av-maja"
+    }
+];
+
+function render() {
+    const list = document.getElementById('emailList');
+    list.innerHTML = emails.map(e => `
+        <div class="email-item" onclick="toggle(${e.id})">
+            <div class="email-avatar ${e.avclass}">${e.avatar}</div>
+            <div class="email-content">
+                <div class="email-top">
+                    <span class="email-sender">${e.sender}</span>
+                    <span class="email-date">${e.date} ${e.time}</span>
+                </div>
+                <div class="email-subject">${e.subject}</div>
+                <div class="email-preview">${e.preview}</div>
+            </div>
+            <div class="email-chevron">›</div>
+        </div>
+        <div class="email-full" id="email-${e.id}">
+            <div class="email-full-header">
+                <div class="email-full-subject">${e.subject}</div>
+                <div class="ef-row"><span class="ef-label">Från:</span><span class="ef-val">${e.from}</span></div>
+                <div class="ef-row"><span class="ef-label">Till:</span><span class="ef-val">${e.to}</span></div>
+                <div class="ef-row"><span class="ef-label">Datum:</span><span class="ef-val">${e.fulldate}</span></div>
+            </div>
+            <div class="email-full-body">
+                ${e.body.replace(/\n/g, '<br>')}
+                ${e.sentfrom ? `<div class="sent-from">${e.sentfrom}</div>` : ''}
+            </div>
+            <div class="email-close" onclick="toggle(${e.id})">Stäng</div>
+        </div>
+    `).join('');
+}
+
+function toggle(id) {
+    const el = document.getElementById('email-' + id);
+    const isOpen = el.classList.contains('open');
+    // Close all
+    document.querySelectorAll('.email-full').forEach(e => e.classList.remove('open'));
+    // Toggle clicked
+    if (!isOpen) {
+        el.classList.add('open');
+        el.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    }
+}
+
+render();
+</script>
+</body>
+</html>
