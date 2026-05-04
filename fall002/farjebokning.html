@@ -1,5 +1,4 @@
 <!DOCTYPE html>
-
 <html lang="sv">
 <head>
     <meta charset="UTF-8">
@@ -12,79 +11,63 @@
         *{margin:0;padding:0;box-sizing:border-box}
         html{overflow-x:hidden}
         body{font-family:'Source Sans 3','Segoe UI',sans-serif;background:var(--bg);color:var(--txt);min-height:100vh;display:flex;flex-direction:column;width:100%;overflow-x:hidden}
-
-```
-    .hdr{background:linear-gradient(180deg,var(--blue-dk),var(--blue));color:#fff;border-bottom:3px solid var(--accent);width:100%}
-    .hdr-in{padding:14px 16px;display:flex;align-items:center;justify-content:space-between}
-    .logo{display:flex;align-items:center;gap:10px}
-    .logo-ic{width:36px;height:36px;background:#fff;border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0}
-    .hdr h1{font-size:16px;font-weight:600}
-    .hdr-sub{font-size:10px;opacity:.7;font-weight:300}
-    .hdr-r{font-size:10px;opacity:.6;text-align:right;line-height:1.5;display:none}
-
-    .warn{background:var(--warn-bg);border-bottom:1px solid var(--warn-brd);padding:8px 16px;font-size:11px;color:#7a4a00;text-align:center;width:100%}
-    .warn strong{color:#5a3000}
-
-    .main{width:100%;padding:16px;flex:1}
-
-    .scard{background:var(--card);border:1px solid var(--brd);border-radius:6px;padding:16px;margin-bottom:16px}
-    .scard h2{font-size:15px;font-weight:600;color:var(--blue);margin-bottom:4px}
-    .scard p{font-size:12px;color:var(--muted);margin-bottom:14px}
-
-    .sf{margin-bottom:10px}
-    .sf label{display:block;font-size:11px;font-weight:600;color:var(--txt2);margin-bottom:4px;text-transform:uppercase;letter-spacing:.5px}
-    .sf input{width:100%;padding:10px 12px;border:1px solid var(--brd);border-radius:4px;font-size:16px;font-family:'Source Code Pro',monospace;background:#fafbfc;-webkit-appearance:none}
-    .sf input:focus{outline:none;border-color:var(--accent);box-shadow:0 0 0 3px rgba(45,139,201,.12)}
-
-    .btn{background:var(--blue);color:#fff;border:none;padding:12px 24px;border-radius:4px;font-size:14px;font-weight:600;cursor:pointer;width:100%}
-    .btn:hover{background:var(--blue-dk)}
-
-    .rc{background:var(--card);border:1px solid var(--brd);border-radius:6px;overflow:hidden;margin-bottom:16px}
-    .rc-h{background:var(--blue-lt);padding:12px 16px;border-bottom:1px solid var(--brd-lt)}
-    .rc-h h3{font-size:13px;font-weight:600;color:var(--blue)}
-    .rc-h-sub{font-size:11px;color:var(--muted);margin-top:2px}
-    .rc-info{padding:10px 16px;font-size:12px;color:var(--txt2);border-bottom:1px solid var(--brd-lt)}
-
-    /* Card-style bookings instead of table on mobile */
-    .booking-card{padding:12px 16px;border-bottom:1px solid var(--brd-lt)}
-    .booking-card:last-child{border-bottom:none}
-    .booking-card.hl{background:#fff8f0}
-    .bc-row{display:flex;justify-content:space-between;margin-bottom:4px;font-size:12px}
-    .bc-label{color:var(--muted);font-size:11px}
-    .bc-val{font-family:'Source Code Pro',monospace;font-size:12px;color:var(--txt)}
-    .bc-route{font-family:'Source Code Pro',monospace;font-size:14px;font-weight:500;color:var(--txt);margin:6px 0}
-    .bc-status{color:#1b7a3d;font-weight:600;font-size:11px}
-
-    .rc-f{padding:8px 16px;background:#fafbfc;border-top:1px solid var(--brd-lt);font-size:10px;color:var(--muted)}
-
-    .nr{background:var(--card);border:1px solid var(--brd);border-radius:6px;padding:32px 16px;text-align:center}
-    .nr-i{font-size:32px;margin-bottom:10px;opacity:.3}
-    .nr-t{font-size:14px;font-weight:600;margin-bottom:6px}
-    .nr-p{font-size:12px;color:var(--muted)}
-
-    .ftr{padding:16px;text-align:center;font-size:10px;color:var(--muted);border-top:1px solid var(--brd-lt)}
-
-    @media(min-width:600px){
-        .main{max-width:600px;margin:24px auto;padding:0 24px}
-        .hdr-in{max-width:600px;margin:0 auto}
-        .hdr-r{display:block}
-        .scard{padding:24px}
-    }
-</style>
-```
-
+        .hdr{background:linear-gradient(180deg,var(--blue-dk),var(--blue));color:#fff;border-bottom:3px solid var(--accent);width:100%}
+        .hdr-in{padding:14px 16px;display:flex;align-items:center;justify-content:space-between}
+        .logo{display:flex;align-items:center;gap:10px}
+        .logo-ic{width:36px;height:36px;background:#fff;border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0}
+        .hdr h1{font-size:16px;font-weight:600}
+        .hdr-sub{font-size:10px;opacity:.7;font-weight:300}
+        .hdr-r{font-size:10px;opacity:.6;text-align:right;line-height:1.5;display:none}
+        .warn{background:var(--warn-bg);border-bottom:1px solid var(--warn-brd);padding:8px 16px;font-size:11px;color:#7a4a00;text-align:center;width:100%}
+        .warn strong{color:#5a3000}
+        .main{width:100%;padding:16px;flex:1}
+        .scard{background:var(--card);border:1px solid var(--brd);border-radius:6px;padding:16px;margin-bottom:16px}
+        .scard h2{font-size:15px;font-weight:600;color:var(--blue);margin-bottom:4px}
+        .scard p{font-size:12px;color:var(--muted);margin-bottom:14px}
+        .sf{margin-bottom:10px}
+        .sf label{display:block;font-size:11px;font-weight:600;color:var(--txt2);margin-bottom:4px;text-transform:uppercase;letter-spacing:.5px}
+        .sf input{width:100%;padding:10px 12px;border:1px solid var(--brd);border-radius:4px;font-size:16px;font-family:'Source Code Pro',monospace;background:#fafbfc;-webkit-appearance:none}
+        .sf input:focus{outline:none;border-color:var(--accent);box-shadow:0 0 0 3px rgba(45,139,201,.12)}
+        .btn{background:var(--blue);color:#fff;border:none;padding:12px 24px;border-radius:4px;font-size:14px;font-weight:600;cursor:pointer;width:100%}
+        .btn:hover{background:var(--blue-dk)}
+        .rc{background:var(--card);border:1px solid var(--brd);border-radius:6px;overflow:hidden;margin-bottom:16px}
+        .rc-h{background:var(--blue-lt);padding:12px 16px;border-bottom:1px solid var(--brd-lt)}
+        .rc-h h3{font-size:13px;font-weight:600;color:var(--blue)}
+        .rc-h-sub{font-size:11px;color:var(--muted);margin-top:2px}
+        .rc-info{padding:10px 16px;font-size:12px;color:var(--txt2);border-bottom:1px solid var(--brd-lt)}
+        .booking-card{padding:12px 16px;border-bottom:1px solid var(--brd-lt)}
+        .booking-card:last-child{border-bottom:none}
+        .booking-card.hl{background:#fff8f0}
+        .bc-row{display:flex;justify-content:space-between;margin-bottom:4px;font-size:12px}
+        .bc-label{color:var(--muted);font-size:11px}
+        .bc-val{font-family:'Source Code Pro',monospace;font-size:12px;color:var(--txt)}
+        .bc-route{font-family:'Source Code Pro',monospace;font-size:14px;font-weight:500;color:var(--txt);margin:6px 0}
+        .bc-status{color:#1b7a3d;font-weight:600;font-size:11px}
+        .rc-f{padding:8px 16px;background:#fafbfc;border-top:1px solid var(--brd-lt);font-size:10px;color:var(--muted)}
+        .nr{background:var(--card);border:1px solid var(--brd);border-radius:6px;padding:32px 16px;text-align:center}
+        .nr-i{font-size:32px;margin-bottom:10px;opacity:.3}
+        .nr-t{font-size:14px;font-weight:600;margin-bottom:6px}
+        .nr-p{font-size:12px;color:var(--muted)}
+        .ftr{padding:16px;text-align:center;font-size:10px;color:var(--muted);border-top:1px solid var(--brd-lt)}
+        @media(min-width:600px){
+            .main{max-width:600px;margin:24px auto;padding:0 24px}
+            .hdr-in{max-width:600px;margin:0 auto}
+            .hdr-r{display:block}
+            .scard{padding:24px}
+        }
+    </style>
 </head>
 <body>
     <header class="hdr">
         <div class="hdr-in">
             <div class="logo">
-                <div class="logo-ic">⛴</div>
+                <div class="logo-ic">&#9956;</div>
                 <div><h1>Stavsnäs Färjetrafik AB</h1><div class="hdr-sub">Boknings- och passagerarsystem</div></div>
             </div>
             <div class="hdr-r">SFT Intern v4.2<br>Behörighet: Polis/Åklagare</div>
         </div>
     </header>
-    <div class="warn"><strong>⚠ Begränsad åtkomst</strong> — Domstolsbeslut DB-2024-89234.</div>
+    <div class="warn"><strong>&#9888; Begränsad åtkomst</strong> — Domstolsbeslut DB-2024-89234.</div>
     <main class="main">
         <div class="scard">
             <h2>Sök bokningshistorik</h2>
@@ -102,45 +85,55 @@
 const D={
 "sigrid holm":{name:"Sigrid Holm",pnr:"721015-XXXX",rows:[
 {nr:"SFT-2024-08412",dat:"2024-10-26",avg:"14:00",ank:"14:35",fran:"Stavsnäs",till:"Kalvskär",st:"Bekräftad",check:"13:52",hl:1},
-{nr:"SFT-2024-08413",dat:"2024-10-27",avg:"11:30",ank:"12:05",fran:"Kalvskär",till:"Stavsnäs",st:"Bekräftad",check:"11:24"}]},
+{nr:"SFT-2024-08470",dat:"2024-10-27",avg:"11:30",ank:"12:05",fran:"Kalvskär",till:"Stavsnäs",st:"Bekräftad",check:"11:24"}]},
+"maja lindström":{name:"Maja Lindström",pnr:"900611-XXXX",rows:[
+{nr:"SFT-2024-08453",dat:"2024-10-26",avg:"17:00",ank:"17:35",fran:"Stavsnäs",till:"Kalvskär",st:"Bekräftad",check:"16:47"},
+{nr:"SFT-2024-08471",dat:"2024-10-27",avg:"11:30",ank:"12:05",fran:"Kalvskär",till:"Stavsnäs",st:"Bekräftad",check:"11:20"}]},
+"leo bergström":{name:"Leo Bergström",pnr:"791115-XXXX",rows:[
+{nr:"SFT-2024-08454",dat:"2024-10-26",avg:"17:00",ank:"17:35",fran:"Stavsnäs",till:"Kalvskär",st:"Bekräftad",check:"16:51"},
+{nr:"SFT-2024-08472",dat:"2024-10-27",avg:"11:30",ank:"12:05",fran:"Kalvskär",till:"Stavsnäs",st:"Bekräftad",check:"11:28"}]},
 "thomas nordgren":{name:"Thomas Nordgren",pnr:"930904-XXXX",rows:[
 {nr:"SFT-2024-08455",dat:"2024-10-26",avg:"17:00",ank:"17:35",fran:"Stavsnäs",till:"Kalvskär",st:"Bekräftad",check:"16:48"},
-{nr:"SFT-2024-08456",dat:"2024-10-27",avg:"11:30",ank:"12:05",fran:"Kalvskär",till:"Stavsnäs",st:"Bekräftad",check:"11:22"}]},
+{nr:"SFT-2024-08473",dat:"2024-10-27",avg:"11:30",ank:"12:05",fran:"Kalvskär",till:"Stavsnäs",st:"Bekräftad",check:"11:22"}]},
 "astrid viklund":{name:"Astrid Viklund",pnr:"950322-XXXX",rows:[
-{nr:"SFT-2024-08456",dat:"2024-10-26",avg:"17:00",ank:"17:35",fran:"Stavsnäs",till:"Kalvskär",st:"Bekräftad",check:"16:51"},
-{nr:"SFT-2024-08457",dat:"2024-10-27",avg:"11:30",ank:"12:05",fran:"Kalvskär",till:"Stavsnäs",st:"Bekräftad",check:"11:26"}]},
-"maja lindström":{name:"Maja Lindström",pnr:"900611-XXXX",rows:[
-{nr:"SFT-2024-08390",dat:"2024-10-26",avg:"10:00",ank:"10:35",fran:"Stavsnäs",till:"Kalvskär",st:"Bekräftad",check:"09:47"},
-{nr:"SFT-2024-08391",dat:"2024-10-27",avg:"11:30",ank:"12:05",fran:"Kalvskär",till:"Stavsnäs",st:"Bekräftad",check:"11:20"}]},
-"leo bergström":{name:"Leo Bergström",pnr:"791115-XXXX",rows:[
-{nr:"SFT-2024-08391",dat:"2024-10-26",avg:"10:00",ank:"10:35",fran:"Stavsnäs",till:"Kalvskär",st:"Bekräftad",check:"09:51"},
-{nr:"SFT-2024-08392",dat:"2024-10-27",avg:"11:30",ank:"12:05",fran:"Kalvskär",till:"Stavsnäs",st:"Bekräftad",check:"11:28"}]},
+{nr:"SFT-2024-08456",dat:"2024-10-26",avg:"17:00",ank:"17:35",fran:"Stavsnäs",till:"Kalvskär",st:"Bekräftad",check:"16:52"},
+{nr:"SFT-2024-08474",dat:"2024-10-27",avg:"11:30",ank:"12:05",fran:"Kalvskär",till:"Stavsnäs",st:"Bekräftad",check:"11:26"}]},
 "erik nordgren":{name:"Erik Nordgren",pnr:"660503-XXXX",rows:[
 {nr:"SFT-2024-08201",dat:"2024-10-20",avg:"09:00",ank:"09:35",fran:"Stavsnäs",till:"Kalvskär",st:"Bekräftad",check:"08:44"}]}
 };
-function go(){const q=document.getElementById('q').value.trim().toLowerCase();if(!q)return;let f=null;for(const[k,v]of Object.entries(D)){if(k.includes(q)||v.name.toLowerCase().includes(q)){f=v;break;}}f?show(f):noshow(q);}
+function go(){
+    const q=document.getElementById('q').value.trim().toLowerCase();
+    if(!q)return;
+    let f=null;
+    for(const[k,v] of Object.entries(D)){
+        if(k.includes(q)||v.name.toLowerCase().includes(q)){f=v;break;}
+    }
+    f?show(f):noshow(q);
+}
 function show(d){
     const n=new Date().toLocaleString('sv-SE');
     let cards=d.rows.map(b=>`
         <div class="booking-card ${b.hl?'hl':''}">
             <div class="bc-row"><span class="bc-label">Bokningsnr</span><span class="bc-val">${b.nr}</span></div>
-            <div class="bc-route">${b.fran} → ${b.till}</div>
+            <div class="bc-route">${b.fran} &rarr; ${b.till}</div>
             <div class="bc-row"><span class="bc-label">Datum</span><span class="bc-val">${b.dat}</span></div>
             <div class="bc-row"><span class="bc-label">Avgång</span><span class="bc-val">${b.avg}</span></div>
             <div class="bc-row"><span class="bc-label">Ankomst</span><span class="bc-val">${b.ank}</span></div>
             <div class="bc-row"><span class="bc-label">Incheckning</span><span class="bc-val">${b.check}</span></div>
-            <div class="bc-row"><span class="bc-label">Status</span><span class="bc-status">✓ ${b.st}</span></div>
+            <div class="bc-row"><span class="bc-label">Status</span><span class="bc-status">&#10003; ${b.st}</span></div>
         </div>
     `).join('');
     document.getElementById('r').innerHTML=`
         <div class="rc">
-            <div class="rc-h"><h3>Bokningshistorik — ${d.name}</h3><div class="rc-h-sub">Period: okt 2024</div></div>
+            <div class="rc-h"><h3>Bokningshistorik &mdash; ${d.name}</h3><div class="rc-h-sub">Period: okt 2024</div></div>
             <div class="rc-info">Personnummer: <span style="font-family:'Source Code Pro',monospace">${d.pnr}</span></div>
             ${cards}
-            <div class="rc-f">Uppslag: ${n} — Källa: SFT Bokningssystem v4.2</div>
+            <div class="rc-f">Uppslag: ${n} &mdash; Källa: SFT Bokningssystem v4.2</div>
         </div>`;
 }
-function noshow(q){document.getElementById('r').innerHTML=`<div class="nr"><div class="nr-i">⊘</div><div class="nr-t">Inga bokningar hittade</div><div class="nr-p">Söktermen <strong>"${q}"</strong> gav inga träffar för den begärda perioden.</div></div>`;}
+function noshow(q){
+    document.getElementById('r').innerHTML=`<div class="nr"><div class="nr-i">&#8856;</div><div class="nr-t">Inga bokningar hittade</div><div class="nr-p">Söktermen <strong>"${q}"</strong> gav inga träffar för den begärda perioden.</div></div>`;
+}
 document.getElementById('q').addEventListener('keydown',function(e){if(e.key==='Enter')go();});
 </script>
 </body>
