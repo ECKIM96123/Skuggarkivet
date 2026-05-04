@@ -37,7 +37,6 @@
         .rc-info{padding:10px 16px;font-size:12px;color:var(--txt2);border-bottom:1px solid var(--brd-lt)}
         .booking-card{padding:12px 16px;border-bottom:1px solid var(--brd-lt)}
         .booking-card:last-child{border-bottom:none}
-        .booking-card.hl{background:#fff8f0}
         .bc-row{display:flex;justify-content:space-between;margin-bottom:4px;font-size:12px}
         .bc-label{color:var(--muted);font-size:11px}
         .bc-val{font-family:'Source Code Pro',monospace;font-size:12px;color:var(--txt)}
@@ -83,10 +82,10 @@
     <footer class="ftr">Stavsnäs Färjetrafik AB — Bokningssystem SFT v4.2 — Data begärd av Utredningsenheten, Skärgårdsregionen</footer>
 <script>
 const D={
-"sigrid holm":{name:"Sigrid Holm",pnr:"721015-XXXX",rows:[
+"sigrid holm":{name:"Sigrid Holm",pnr:"720228-XXXX",rows:[
 {nr:"SFT-2024-08412",dat:"2024-10-26",avg:"14:00",ank:"14:35",fran:"Stavsnäs",till:"Kalvskär",st:"Bekräftad",check:"13:52"},
 {nr:"SFT-2024-08470",dat:"2024-10-27",avg:"11:30",ank:"12:05",fran:"Kalvskär",till:"Stavsnäs",st:"Bekräftad",check:"11:24"}]},
-"maja lindström":{name:"Maja Lindström",pnr:"900611-XXXX",rows:[
+"maja lindström":{name:"Maja Lindström",pnr:"900612-XXXX",rows:[
 {nr:"SFT-2024-08453",dat:"2024-10-26",avg:"17:00",ank:"17:35",fran:"Stavsnäs",till:"Kalvskär",st:"Bekräftad",check:"16:47"},
 {nr:"SFT-2024-08471",dat:"2024-10-27",avg:"11:30",ank:"12:05",fran:"Kalvskär",till:"Stavsnäs",st:"Bekräftad",check:"11:20"}]},
 "leo bergström":{name:"Leo Bergström",pnr:"791115-XXXX",rows:[
@@ -95,11 +94,9 @@ const D={
 "thomas nordgren":{name:"Thomas Nordgren",pnr:"930904-XXXX",rows:[
 {nr:"SFT-2024-08455",dat:"2024-10-26",avg:"17:00",ank:"17:35",fran:"Stavsnäs",till:"Kalvskär",st:"Bekräftad",check:"16:48"},
 {nr:"SFT-2024-08473",dat:"2024-10-27",avg:"11:30",ank:"12:05",fran:"Kalvskär",till:"Stavsnäs",st:"Bekräftad",check:"11:22"}]},
-"astrid viklund":{name:"Astrid Viklund",pnr:"950322-XXXX",rows:[
+"astrid viklund":{name:"Astrid Viklund",pnr:"950422-XXXX",rows:[
 {nr:"SFT-2024-08456",dat:"2024-10-26",avg:"17:00",ank:"17:35",fran:"Stavsnäs",till:"Kalvskär",st:"Bekräftad",check:"16:52"},
-{nr:"SFT-2024-08474",dat:"2024-10-27",avg:"11:30",ank:"12:05",fran:"Kalvskär",till:"Stavsnäs",st:"Bekräftad",check:"11:26"}]},
-"erik nordgren":{name:"Erik Nordgren",pnr:"660503-XXXX",rows:[
-{nr:"SFT-2024-08201",dat:"2024-10-20",avg:"09:00",ank:"09:35",fran:"Stavsnäs",till:"Kalvskär",st:"Bekräftad",check:"08:44"}]}
+{nr:"SFT-2024-08474",dat:"2024-10-27",avg:"11:30",ank:"12:05",fran:"Kalvskär",till:"Stavsnäs",st:"Bekräftad",check:"11:26"}]}
 };
 function go(){
     const q=document.getElementById('q').value.trim().toLowerCase();
@@ -113,7 +110,7 @@ function go(){
 function show(d){
     const n=new Date().toLocaleString('sv-SE');
     let cards=d.rows.map(b=>`
-        <div class="booking-card ${b.hl?'hl':''}">
+        <div class="booking-card">
             <div class="bc-row"><span class="bc-label">Bokningsnr</span><span class="bc-val">${b.nr}</span></div>
             <div class="bc-route">${b.fran} &rarr; ${b.till}</div>
             <div class="bc-row"><span class="bc-label">Datum</span><span class="bc-val">${b.dat}</span></div>
