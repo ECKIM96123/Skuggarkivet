@@ -546,7 +546,7 @@
                         <span class="form-hint" id="searchHint"> — Ange vapnets serienummer</span>
                     </label>
                     <input type="text" id="searchInput" class="form-input"
-                           placeholder="T.ex. BTR-4472-SE" maxlength="30"
+                           placeholder="Ange serienummer eller licensnummer" maxlength="30"
                            autocomplete="off" spellcheck="false">
                     <div class="error-msg" id="errorMsg"></div>
                 </div>
@@ -686,10 +686,10 @@
             const input = document.getElementById('searchInput');
             const hint = document.getElementById('searchHint');
             if (type === 'serial') {
-                input.placeholder = "T.ex. BTR-4472-SE";
+                input.placeholder = "Ange vapnets serienummer";
                 hint.textContent = " — Ange vapnets serienummer";
             } else {
-                input.placeholder = "T.ex. VL-2001-GBG-04418";
+                input.placeholder = "Ange licensnummer";
                 hint.textContent = " — Ange licensnummer";
             }
         }
