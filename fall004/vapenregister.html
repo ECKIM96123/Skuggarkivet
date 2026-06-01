@@ -1,0 +1,831 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Centrala Vapenregistret — Rikssäkerhetsverket</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Source+Sans+3:wght@300;400;600;700&family=Source+Code+Pro:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --rps-dark: #1a1a2e;
+            --rps-primary: #16213e;
+            --rps-accent: #0f3460;
+            --rps-gold: #d4a843;
+            --rps-gold-muted: #b8943a;
+            --text-primary: #1a1a1a;
+            --text-secondary: #4a4a4a;
+            --text-muted: #6b6b6b;
+            --border: #c8c8d0;
+            --border-light: #e2e2e8;
+            --bg-page: #eef0f3;
+            --bg-card: #ffffff;
+            --bg-input: #fafbfc;
+            --error-red: #9b2c2c;
+            --success-green: #1b7a3d;
+            --warning-bg: #fef9e7;
+            --warning-border: #d4a843;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Source Sans 3', 'Segoe UI', sans-serif;
+            background: var(--bg-page);
+            color: var(--text-primary);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* === HEADER === */
+        .gov-header {
+            background: linear-gradient(180deg, var(--rps-dark) 0%, var(--rps-primary) 100%);
+            color: white;
+            border-bottom: 3px solid var(--rps-gold);
+        }
+
+        .gov-header-top {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            max-width: 960px;
+            margin: 0 auto;
+            padding: 16px 24px;
+        }
+
+        .gov-logo {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+        }
+
+        .gov-logo-icon {
+            width: 48px;
+            height: 48px;
+            border: 2px solid var(--rps-gold);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+
+        .gov-logo-icon svg {
+            width: 26px;
+            height: 26px;
+        }
+
+        .gov-logo-text {
+            display: flex;
+            flex-direction: column;
+            line-height: 1.2;
+        }
+
+        .gov-logo-name {
+            font-size: 17px;
+            font-weight: 700;
+            letter-spacing: 0.03em;
+        }
+
+        .gov-logo-sub {
+            font-size: 11px;
+            font-weight: 300;
+            opacity: 0.7;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+        }
+
+        .gov-header-meta {
+            font-size: 11px;
+            opacity: 0.55;
+            text-align: right;
+            line-height: 1.5;
+        }
+
+        /* === NAV === */
+        .gov-nav {
+            background: rgba(0,0,0,0.25);
+        }
+
+        .gov-nav-inner {
+            max-width: 960px;
+            margin: 0 auto;
+            padding: 0 24px;
+            display: flex;
+        }
+
+        .gov-nav-item {
+            padding: 10px 18px;
+            font-size: 13px;
+            color: rgba(255,255,255,0.55);
+            text-decoration: none;
+            border-bottom: 2px solid transparent;
+            cursor: default;
+        }
+
+        .gov-nav-item.active {
+            color: white;
+            border-bottom-color: var(--rps-gold);
+            background: rgba(255,255,255,0.04);
+        }
+
+        /* === BREADCRUMB === */
+        .breadcrumb {
+            max-width: 960px;
+            margin: 0 auto;
+            padding: 12px 24px;
+            font-size: 12px;
+            color: var(--text-muted);
+            width: 100%;
+        }
+
+        .breadcrumb span { margin: 0 6px; }
+        .breadcrumb a { color: var(--rps-accent); text-decoration: none; }
+
+        /* === MAIN === */
+        .main-content {
+            max-width: 960px;
+            margin: 0 auto;
+            padding: 0 24px 60px;
+            width: 100%;
+            flex: 1;
+        }
+
+        .page-title {
+            font-size: 26px;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: 4px;
+        }
+
+        .page-subtitle {
+            font-size: 14px;
+            color: var(--text-muted);
+            margin-bottom: 28px;
+        }
+
+        /* === NOTICE === */
+        .notice-box {
+            background: var(--warning-bg);
+            border: 1px solid var(--warning-border);
+            border-left: 4px solid var(--rps-gold-muted);
+            padding: 14px 18px;
+            margin-bottom: 28px;
+            border-radius: 2px;
+            font-size: 13px;
+            color: var(--text-secondary);
+            line-height: 1.5;
+        }
+
+        .notice-box strong { color: var(--text-primary); }
+
+        .notice-box.restricted {
+            background: #fdf2f2;
+            border-color: #c53030;
+            border-left-color: var(--error-red);
+        }
+
+        .notice-box.restricted strong { color: var(--error-red); }
+
+        /* === SEARCH === */
+        .search-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 3px;
+            padding: 28px 32px;
+            margin-bottom: 24px;
+        }
+
+        .search-card-title {
+            font-size: 16px;
+            font-weight: 600;
+            margin-bottom: 18px;
+            color: var(--text-primary);
+            padding-bottom: 12px;
+            border-bottom: 1px solid var(--border-light);
+        }
+
+        .search-form {
+            display: flex;
+            gap: 12px;
+            align-items: flex-end;
+        }
+
+        .form-group { flex: 1; }
+
+        .search-type-group {
+            margin-bottom: 16px;
+        }
+
+        .search-type-group label {
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--text-secondary);
+            display: block;
+            margin-bottom: 8px;
+        }
+
+        .radio-group {
+            display: flex;
+            gap: 20px;
+        }
+
+        .radio-group label {
+            font-size: 13px;
+            font-weight: 400;
+            color: var(--text-primary);
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            cursor: pointer;
+        }
+
+        .radio-group input[type="radio"] {
+            accent-color: var(--rps-accent);
+        }
+
+        .form-label {
+            display: block;
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--text-secondary);
+            margin-bottom: 6px;
+        }
+
+        .form-hint {
+            font-weight: 400;
+            color: var(--text-muted);
+            font-size: 12px;
+        }
+
+        .form-input {
+            width: 100%;
+            padding: 10px 14px;
+            font-family: 'Source Code Pro', monospace;
+            font-size: 15px;
+            font-weight: 500;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            border: 2px solid var(--border);
+            border-radius: 2px;
+            background: var(--bg-input);
+            color: var(--text-primary);
+            transition: border-color 0.15s;
+        }
+
+        .form-input::placeholder {
+            text-transform: none;
+            letter-spacing: normal;
+            font-family: 'Source Sans 3', sans-serif;
+            font-size: 14px;
+            font-weight: 400;
+            color: #b0b0b8;
+        }
+
+        .form-input:focus {
+            outline: none;
+            border-color: var(--rps-accent);
+            background: white;
+            box-shadow: 0 0 0 3px rgba(15, 52, 96, 0.1);
+        }
+
+        .search-btn {
+            padding: 10px 28px;
+            background: var(--rps-primary);
+            color: white;
+            border: 2px solid var(--rps-primary);
+            border-radius: 2px;
+            font-family: 'Source Sans 3', sans-serif;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            white-space: nowrap;
+            height: 44px;
+            transition: background 0.15s;
+        }
+
+        .search-btn:hover { background: var(--rps-dark); border-color: var(--rps-dark); }
+
+        /* === RESULTS === */
+        .result-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 3px;
+            overflow: hidden;
+            animation: fadeIn 0.25s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(6px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .result-header {
+            background: var(--rps-primary);
+            color: white;
+            padding: 14px 24px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .result-header-title { font-size: 14px; font-weight: 600; }
+        .result-header-ref { font-size: 11px; font-family: 'Source Code Pro', monospace; opacity: 0.7; }
+
+        .result-body { padding: 24px; }
+
+        .result-serial {
+            font-family: 'Source Code Pro', monospace;
+            font-size: 24px;
+            font-weight: 500;
+            letter-spacing: 0.1em;
+            color: var(--rps-primary);
+            padding: 10px 18px;
+            background: #eef1f7;
+            border: 2px solid var(--rps-accent);
+            border-radius: 3px;
+            display: inline-block;
+            margin-bottom: 20px;
+        }
+
+        .result-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 0;
+            border: 1px solid var(--border-light);
+            border-radius: 2px;
+            overflow: hidden;
+        }
+
+        .result-row { display: contents; }
+
+        .result-label {
+            padding: 10px 16px;
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--text-secondary);
+            background: #f7f7fa;
+            border-bottom: 1px solid var(--border-light);
+            border-right: 1px solid var(--border-light);
+        }
+
+        .result-value {
+            padding: 10px 16px;
+            font-size: 13px;
+            color: var(--text-primary);
+            border-bottom: 1px solid var(--border-light);
+        }
+
+        .result-row:last-child .result-label,
+        .result-row:last-child .result-value { border-bottom: none; }
+
+        .result-status {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 12px;
+            font-weight: 600;
+            padding: 3px 10px;
+            border-radius: 2px;
+        }
+
+        .status-active { background: #e8f5e9; color: var(--success-green); }
+        .status-stolen { background: #fdecea; color: var(--error-red); }
+        .status-revoked { background: #fff3e0; color: #c46210; }
+
+        .alert-box {
+            background: #fdecea;
+            border: 1px solid #e8a0a0;
+            border-left: 4px solid var(--error-red);
+            padding: 12px 16px;
+            margin-top: 16px;
+            border-radius: 2px;
+            font-size: 13px;
+            color: var(--error-red);
+            font-weight: 600;
+        }
+
+        .result-footer {
+            padding: 14px 24px;
+            background: #fafafa;
+            border-top: 1px solid var(--border-light);
+            font-size: 11px;
+            color: var(--text-muted);
+            display: flex;
+            justify-content: space-between;
+        }
+
+        /* === NO RESULT === */
+        .no-result {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 3px;
+            padding: 40px 24px;
+            text-align: center;
+            animation: fadeIn 0.25s ease;
+        }
+
+        .no-result-icon { font-size: 36px; margin-bottom: 12px; opacity: 0.3; }
+        .no-result-title { font-size: 16px; font-weight: 600; margin-bottom: 6px; }
+        .no-result-text { font-size: 13px; color: var(--text-muted); line-height: 1.5; }
+
+        .error-msg {
+            color: var(--error-red);
+            font-size: 13px;
+            margin-top: 8px;
+            display: none;
+        }
+
+        .form-input.error { border-color: var(--error-red); }
+
+        .loading { text-align: center; padding: 40px; }
+
+        .loading-spinner {
+            width: 32px;
+            height: 32px;
+            border: 3px solid var(--border);
+            border-top-color: var(--rps-primary);
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+            margin: 0 auto 12px;
+        }
+
+        @keyframes spin { to { transform: rotate(360deg); } }
+
+        .loading-text { font-size: 13px; color: var(--text-muted); }
+
+        /* === FOOTER === */
+        .gov-footer {
+            background: var(--rps-dark);
+            color: rgba(255,255,255,0.45);
+            padding: 20px 24px;
+            text-align: center;
+            font-size: 11px;
+            line-height: 1.6;
+            margin-top: auto;
+        }
+
+        .gov-footer a { color: rgba(255,255,255,0.6); text-decoration: none; }
+
+        @media (max-width: 640px) {
+            .gov-header-meta { display: none; }
+            .main-content { padding: 0 16px 40px; }
+            .search-form { flex-direction: column; }
+            .search-btn { width: 100%; }
+            .search-card { padding: 20px; }
+            .result-grid { grid-template-columns: 1fr; }
+            .result-label { border-right: none; }
+            .radio-group { flex-direction: column; gap: 8px; }
+        }
+    </style>
+</head>
+<body>
+
+    <header class="gov-header">
+        <div class="gov-header-top">
+            <div class="gov-logo">
+                <div class="gov-logo-icon">
+                    <svg viewBox="0 0 24 24" fill="none">
+                        <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2z" stroke="#d4a843" stroke-width="1.5" fill="none"/>
+                        <path d="M12 6v4l3 3" stroke="#d4a843" stroke-width="1.5" stroke-linecap="round"/>
+                        <path d="M8 14l2-1.5M16 14l-2-1.5" stroke="#d4a843" stroke-width="1" stroke-linecap="round"/>
+                        <circle cx="12" cy="12" r="1.5" fill="#d4a843"/>
+                    </svg>
+                </div>
+                <div class="gov-logo-text">
+                    <span class="gov-logo-name">Rikssäkerhetsverket</span>
+                    <span class="gov-logo-sub">Centrala vapenregistret — Sökportal</span>
+                </div>
+            </div>
+            <div class="gov-header-meta">
+                Registerversion: 2004-11-01<br>
+                System VR/3.8.2
+            </div>
+        </div>
+        <nav class="gov-nav">
+            <div class="gov-nav-inner">
+                <span class="gov-nav-item">Startsida</span>
+                <span class="gov-nav-item active">Vapenuppslag</span>
+                <span class="gov-nav-item">Licenshistorik</span>
+                <span class="gov-nav-item">Stöldregister</span>
+                <span class="gov-nav-item">Kontakt</span>
+            </div>
+        </nav>
+    </header>
+
+    <div class="breadcrumb">
+        <a href="#">Startsida</a> <span>›</span> <a href="#">Vapenregistret</a> <span>›</span> Vapenuppslag
+    </div>
+
+    <main class="main-content">
+        <h1 class="page-title">Vapenuppslag</h1>
+        <p class="page-subtitle">Sök vapenuppgifter via serienummer eller licensnummer</p>
+
+        <div class="notice-box restricted">
+            <strong>Begränsad åtkomst:</strong> Denna tjänst är avsedd för behörig personal inom
+            rättsväsendet. Varje sökning loggas och kan granskas. Missbruk rapporteras till
+            tillsynsmyndigheten. Ref: RSVFS 2002:14.
+        </div>
+
+        <div class="search-card">
+            <div class="search-card-title">Sök vapen</div>
+
+            <div class="search-type-group">
+                <label>Söktyp</label>
+                <div class="radio-group">
+                    <label><input type="radio" name="searchType" value="serial" checked onchange="updatePlaceholder()"> Serienummer</label>
+                    <label><input type="radio" name="searchType" value="license" onchange="updatePlaceholder()"> Licensnummer</label>
+                </div>
+            </div>
+
+            <div class="search-form">
+                <div class="form-group">
+                    <label class="form-label" for="searchInput">
+                        Sökterm
+                        <span class="form-hint" id="searchHint"> — Ange vapnets serienummer</span>
+                    </label>
+                    <input type="text" id="searchInput" class="form-input"
+                           placeholder="T.ex. BTR-4472-SE" maxlength="30"
+                           autocomplete="off" spellcheck="false">
+                    <div class="error-msg" id="errorMsg"></div>
+                </div>
+                <button class="search-btn" onclick="searchWeapon()">Sök</button>
+            </div>
+        </div>
+
+        <div id="resultArea"></div>
+    </main>
+
+    <footer class="gov-footer">
+        Rikssäkerhetsverket &copy; 2004 &middot; Org.nr 201100-0482 &middot;
+        <a href="#">Tillgänglighet</a> &middot;
+        <a href="#">Sekretess</a><br>
+        Uppgifter i vapenregistret omfattas av sekretess enligt Sekretessförordningen (SFS 2001:322) 14 kap. 2§.
+    </footer>
+
+    <script>
+        // ============================================
+        // VAPENREGISTER — FALL NR. 005 "SVART KAJ"
+        // ============================================
+
+        // Helper to register both serial and license lookups
+        function wp(serial, make, model, caliber, type, manufactured, country,
+                     owner, pnr, addr, licType, licNr, licDate, authority, status, statusClass, alerts) {
+            return { serial, make, model, caliber, type, manufactured, country,
+                     owner, ownerPnr: pnr, ownerAddr: addr, licenseType: licType,
+                     licenseNr: licNr, licenseDate: licDate, licenseAuthority: authority,
+                     status, statusClass, alerts: alerts || [] };
+        }
+
+        const _db = [
+            // === NIKLAS GREN — MORDVAPNET ===
+            wp("BTR-4472-SE", "Glock", "17 (Generation 3)", "9x19 mm Parabellum",
+               "Halvautomatisk pistol", "1999", "Österrike",
+               "Gren, Niklas Ove", "660415-****", "Strandvägen 14B, 451 32 Strandvik",
+               "Målskytte", "VL-2001-GBG-04418", "2001-03-15",
+               "Ordningsmyndigheten Region Väst", "Anmäld stulen", "status-stolen",
+               [{ date: "2004-10-22", type: "STÖLDANMÄLAN",
+                  text: "Vapnet anmält stulet ur fordon (Nissan Navara, reg.nr XGF 342). Anmälan K-2004-8832. Ärendet avskrivet 2004-10-29." },
+                { date: "2004-10-08", type: "BALLISTISK TRÄFF",
+                  text: "Vapnet har via ballistisk analys (KTI-2004-BAL-03318) kopplats till ouppklarat rån mot värdetransport i Borås 2004-09-30. Patronhylsor från brottsplatsen matchar detta vapen. Innehavaren ej delgiven misstanke. Utredning pågår (ärende B-2004-14209)." }]),
+
+            // === OFFRET — Bo Renström hade ett hagelgevär ===
+            wp("STO-1188-SE", "Beretta", "686 Silver Pigeon", "12/76",
+               "Hagelbock", "1996", "Italien",
+               "Renström, Bo Anders", "520217-****", "Ekuddsvägen 7, 451 30 Strandvik",
+               "Jakt", "VL-1997-GBG-02190", "1997-04-08",
+               "Ordningsmyndigheten Region Väst", "Aktiv licens", "status-active"),
+
+            // === Ove Persson (driftansvarig, vittne) ===
+            wp("AKR-7210-SE", "Tikka", "T3x Lite", ".308 Winchester",
+               "Repetergevär", "2002", "Finland",
+               "Persson, Ove Magnus", "581104-****", "Industrivägen 8, 451 33 Strandvik",
+               "Jakt", "VL-2002-GBG-09381", "2002-09-20",
+               "Ordningsmyndigheten Region Väst", "Aktiv licens", "status-active"),
+
+            // === Anders Ström (hamnarbetare, passerkort i loggen) ===
+            wp("FNH-3301-BE", "Browning", "B525 Sporter", "12/70",
+               "Hagelbock", "2001", "Belgien",
+               "Ström, Anders Mikael", "700519-****", "Kungsvägen 3, 451 31 Strandvik",
+               "Jakt", "VL-2001-GBG-05572", "2001-11-12",
+               "Ordningsmyndigheten Region Väst", "Aktiv licens", "status-active"),
+
+            // === Slumpmässiga invånare i Strandvik (brus) ===
+
+            // Granne till Niklas
+            wp("CZP-0914-CZ", "CZ", "75 B", "9x19 mm Parabellum",
+               "Halvautomatisk pistol", "1998", "Tjeckien",
+               "Karlsson, Bengt Åke", "550730-****", "Strandvägen 12, 451 32 Strandvik",
+               "Målskytte", "VL-1999-GBG-01847", "1999-02-10",
+               "Ordningsmyndigheten Region Väst", "Aktiv licens", "status-active"),
+
+            // Jägare i utkanten
+            wp("SAU-2055-FI", "Sako", "85 Bavarian", "6.5x55 SE",
+               "Repetergevär", "2003", "Finland",
+               "Holmgren, Lars-Erik", "630212-****", "Skogsvägen 44, 451 35 Strandvik",
+               "Jakt", "VL-2003-GBG-11204", "2003-08-25",
+               "Ordningsmyndigheten Region Väst", "Aktiv licens", "status-active"),
+
+            // Pistolskytt — annan klubb
+            wp("SIG-7782-DE", "SIG Sauer", "P226", "9x19 mm Parabellum",
+               "Halvautomatisk pistol", "2000", "Tyskland",
+               "Eriksson, Mats Roland", "681115-****", "Björkallén 19, 451 34 Strandvik",
+               "Målskytte", "VL-2000-GBG-03651", "2000-06-18",
+               "Ordningsmyndigheten Region Väst", "Aktiv licens", "status-active"),
+
+            // Äldre jägare, gevär
+            wp("HUS-4490-SE", "Husqvarna", "1640", "9.3x62 mm",
+               "Repetergevär", "1971", "Sverige",
+               "Johansson, Rune Vilhelm", "420908-****", "Hamngatan 15, 451 31 Strandvik",
+               "Jakt", "VL-1988-GBG-00412", "1988-03-14",
+               "Ordningsmyndigheten Göteborg-Bohus", "Aktiv licens", "status-active"),
+
+            // Sportpistol — potentiell röd sill (också 9mm, annan ägare)
+            wp("WAL-5561-DE", "Walther", "P99", "9x19 mm Parabellum",
+               "Halvautomatisk pistol", "2001", "Tyskland",
+               "Lindgren, Per-Ove", "460317-****", "Vasagatan 8, lgh 302, 411 24 Göteborg",
+               "Målskytte", "VL-2002-GBG-07823", "2002-03-22",
+               "Ordningsmyndigheten Region Väst", "Aktiv licens", "status-active"),
+
+            // Indragen licens — extra brus
+            wp("REM-9934-US", "Remington", "870 Express", "12/76",
+               "Pumphagelgevär", "1997", "USA",
+               "Björk, Tommy Stefan", "570401-****", "Kaj 2 vägen 1, 451 31 Strandvik",
+               "Jakt", "VL-1998-GBG-01203", "1998-09-05",
+               "Ordningsmyndigheten Region Väst", "Licens indragen", "status-revoked",
+               [{ date: "2003-06-15", type: "LICENSINDRAGNING",
+                  text: "Licens indragen pga. domar enligt vapenlagen. Vapnet omhändertaget 2003-07-01." }]),
+
+            // Kombivapen — jägare
+            wp("BLA-6120-DE", "Blaser", "R8 Professional", ".30-06 Springfield",
+               "Repetergevär", "2004", "Tyskland",
+               "Månsson, Karin Elisabet", "720614-****", "Ringvägen 22, 451 30 Strandvik",
+               "Jakt", "VL-2004-GBG-13001", "2004-05-10",
+               "Ordningsmyndigheten Region Väst", "Aktiv licens", "status-active"),
+
+            // Stulen pistol — extra brus (annan stöld i trakten)
+            wp("BER-2247-IT", "Beretta", "92FS", "9x19 mm Parabellum",
+               "Halvautomatisk pistol", "1995", "Italien",
+               "Nilsson, Peter Johan", "590822-****", "Hamngatan 31, 451 31 Strandvik",
+               "Målskytte", "VL-1996-GBG-01580", "1996-11-20",
+               "Ordningsmyndigheten Region Väst", "Anmäld stulen", "status-stolen",
+               [{ date: "2002-08-10", type: "STÖLDANMÄLAN",
+                  text: "Vapnet anmält stulet vid inbrott i bostad. Anmälan K-2002-5541. Ej återfunnet." }]),
+        ];
+
+        // Build lookup table: both serial and license point to same record
+        const weapons = {};
+        _db.forEach(w => {
+            weapons[w.serial] = w;
+            weapons[w.licenseNr] = w;
+        });
+
+        function updatePlaceholder() {
+            const type = document.querySelector('input[name="searchType"]:checked').value;
+            const input = document.getElementById('searchInput');
+            const hint = document.getElementById('searchHint');
+            if (type === 'serial') {
+                input.placeholder = "T.ex. BTR-4472-SE";
+                hint.textContent = " — Ange vapnets serienummer";
+            } else {
+                input.placeholder = "T.ex. VL-2001-GBG-04418";
+                hint.textContent = " — Ange licensnummer";
+            }
+        }
+
+        function searchWeapon() {
+            const input = document.getElementById('searchInput');
+            const resultArea = document.getElementById('resultArea');
+            const errorMsg = document.getElementById('errorMsg');
+            const raw = input.value.trim().toUpperCase();
+
+            input.classList.remove('error');
+            errorMsg.style.display = 'none';
+
+            if (!raw) {
+                input.classList.add('error');
+                errorMsg.textContent = 'Ange ett serie- eller licensnummer.';
+                errorMsg.style.display = 'block';
+                return;
+            }
+
+            resultArea.innerHTML = `
+                <div class="loading">
+                    <div class="loading-spinner"></div>
+                    <div class="loading-text">Söker i centrala vapenregistret...</div>
+                </div>`;
+
+            const delay = 800 + Math.random() * 1000;
+            setTimeout(() => {
+                const weapon = weapons[raw];
+                if (weapon) {
+                    showResult(weapon);
+                } else {
+                    showNoResult(raw);
+                }
+            }, delay);
+        }
+
+        function showResult(w) {
+            const ref = 'VR-' + Date.now().toString().slice(-8);
+            const now = new Date().toISOString().slice(0, 19).replace('T', ' ');
+
+            let alertsHtml = '';
+            if (w.alerts && w.alerts.length > 0) {
+                alertsHtml = w.alerts.map(a => `
+                    <div class="alert-box">
+                        ⚠ ${a.type} (${a.date}): ${a.text}
+                    </div>
+                `).join('');
+            }
+
+            document.getElementById('resultArea').innerHTML = `
+                <div class="result-card">
+                    <div class="result-header">
+                        <span class="result-header-title">Vapenuppgifter</span>
+                        <span class="result-header-ref">Ref: ${ref}</span>
+                    </div>
+                    <div class="result-body">
+                        <div class="result-serial">${w.serial}</div>
+                        <div class="result-grid">
+                            <div class="result-row">
+                                <div class="result-label">Vapentyp</div>
+                                <div class="result-value">${w.type}</div>
+                            </div>
+                            <div class="result-row">
+                                <div class="result-label">Fabrikat / Modell</div>
+                                <div class="result-value">${w.make} ${w.model}</div>
+                            </div>
+                            <div class="result-row">
+                                <div class="result-label">Kaliber</div>
+                                <div class="result-value">${w.caliber}</div>
+                            </div>
+                            <div class="result-row">
+                                <div class="result-label">Tillverkningsår</div>
+                                <div class="result-value">${w.manufactured}</div>
+                            </div>
+                            <div class="result-row">
+                                <div class="result-label">Tillverkningsland</div>
+                                <div class="result-value">${w.country}</div>
+                            </div>
+                            <div class="result-row">
+                                <div class="result-label">Status</div>
+                                <div class="result-value"><span class="result-status ${w.statusClass}">${w.status}</span></div>
+                            </div>
+                            <div class="result-row">
+                                <div class="result-label">Licenstyp</div>
+                                <div class="result-value">${w.licenseType}</div>
+                            </div>
+                            <div class="result-row">
+                                <div class="result-label">Licensnummer</div>
+                                <div class="result-value" style="font-family:'Source Code Pro',monospace;font-size:12px;">${w.licenseNr}</div>
+                            </div>
+                            <div class="result-row">
+                                <div class="result-label">Licens beviljad</div>
+                                <div class="result-value">${w.licenseDate}</div>
+                            </div>
+                            <div class="result-row">
+                                <div class="result-label">Licensmyndighet</div>
+                                <div class="result-value">${w.licenseAuthority}</div>
+                            </div>
+                            <div class="result-row">
+                                <div class="result-label">Registrerad innehavare</div>
+                                <div class="result-value"><strong>${w.owner}</strong></div>
+                            </div>
+                            <div class="result-row">
+                                <div class="result-label">Personnummer</div>
+                                <div class="result-value" style="font-family:'Source Code Pro',monospace;">${w.ownerPnr}</div>
+                            </div>
+                            <div class="result-row">
+                                <div class="result-label">Folkbokföringsadress</div>
+                                <div class="result-value">${w.ownerAddr}</div>
+                            </div>
+                        </div>
+                        ${alertsHtml}
+                    </div>
+                    <div class="result-footer">
+                        <span>Uppslag: ${now}</span>
+                        <span>Källa: Centrala vapenregistret (RPS-VR/3.8)</span>
+                    </div>
+                </div>`;
+        }
+
+        function showNoResult(q) {
+            document.getElementById('resultArea').innerHTML = `
+                <div class="no-result">
+                    <div class="no-result-icon">⊘</div>
+                    <div class="no-result-title">Inget vapen hittat</div>
+                    <div class="no-result-text">
+                        Söktermen <strong>${q}</strong> gav inga träffar i vapenregistret.<br>
+                        Kontrollera att numret är korrekt.
+                    </div>
+                </div>`;
+        }
+
+        document.getElementById('searchInput').addEventListener('keydown', function(e) {
+            if (e.key === 'Enter') searchWeapon();
+        });
+    </script>
+</body>
+</html>
